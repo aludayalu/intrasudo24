@@ -1,7 +1,10 @@
 import uuid, json
 
 def render(path, variables=None):
-    component=open(path).read()
+    try:
+        component=open(path).read()
+    except:
+        component=open("components/"+path+".html").read()
     if variables==None:
         variables=locals()|globals()
     replace_maps={}
