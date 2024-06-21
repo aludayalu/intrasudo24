@@ -1,4 +1,5 @@
 import uuid, json
+from flask import send_from_directory
 
 def render(path, variables=None):
     try:
@@ -21,3 +22,8 @@ def render(path, variables=None):
             out="\n".join([str(x) for x in out])
         component=component.replace(x, out)
     return component
+
+def init(app):
+    @app.route('/<path:path>')
+    def catch_all(path):
+        return send_from_directory("public", path)
