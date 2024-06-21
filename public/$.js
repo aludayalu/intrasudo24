@@ -1,6 +1,6 @@
 var signals={}
 
-function derived_from(id, func) {
+function Derived_From(id, func) {
     var signal={"Id":id, "Value":func, "onChange":()=>{}, "setValue":(value)=>{
         signals[id].onChange()
         signals[id].value=()=>value
@@ -17,3 +17,5 @@ function Signal(id, value) {
     signals[id]=signal
     return signal
 }
+
+export {Signal, Derived_From}
