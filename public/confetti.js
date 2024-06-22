@@ -101,8 +101,10 @@ const showConfetti = getCookie("showConfetti")
 
 document.addEventListener("DOMContentLoaded", () => {
     (async () => {
-        if (showConfetti == "true") {
+        if (showConfetti !== "false") {
             Draw();
+
+            document.getElementById("confetti_div").style.display = "block"
 
             document.querySelector("#random div").style.display = "none"
             document.querySelector("#random div").style.position = "absolute"
@@ -136,29 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
             document.getElementById("confetti_div").style.display = "none"
-
-            document.querySelector("#random div").style.display = "block"
-            document.querySelector("#random div").style.position = "absolute"
-            document.querySelector("#random div").style.top = window.innerHeight + 30 + "px"
-            document.querySelector("#random div").style.opacity = 0
-
-
-            new Promise(function (resolve) {
-                setTimeout(() => {
-                    document.querySelector("#random div").style.top = "0px"
-                    document.querySelector("#random div").style.opacity = 1
-                    window.scrollY = 0
-                    resolve();
-                }, 300)
-            }).then(() => {
-                new Promise(function (resolve) {
-                    setTimeout(() => {
-                        document.querySelector("#random div").style.position = "static"
-                        window.scrollY = 0
-                        resolve();
-                    }, 350)
-                })
-            })
         }
     })()
 })
@@ -169,7 +148,7 @@ function setCookie(name, value) {
     var date = new Date();
     date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
     const expires = "; expires=" + date.toUTCString();
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + ";";
 }
 function getCookie(name) {
     var nameEQ = name + "=";
