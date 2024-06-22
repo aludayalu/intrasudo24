@@ -20,6 +20,7 @@ canvas {
   width: 100%;
   margin: 0;
 }
+
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -78,18 +79,23 @@ a {
   -ms-user-select: none;
   user-select: none;
 }
-.checkbox input:checked ~ .checkbox__checkmark {
+
+.checkbox input:checked~.checkbox__checkmark {
   background-color: var(--primary);
 }
-.checkbox input:checked ~ .checkbox__checkmark:after {
+
+.checkbox input:checked~.checkbox__checkmark:after {
   opacity: 1;
 }
-.checkbox:hover input ~ .checkbox__checkmark {
+
+.checkbox:hover input~.checkbox__checkmark {
   background-color: var(--background);
 }
-.checkbox:hover input:checked ~ .checkbox__checkmark {
+
+.checkbox:hover input:checked~.checkbox__checkmark {
   background-color: var(--primary);
 }
+
 .checkbox .checkbox__checkmark {
   position: absolute;
   top: 2px;
@@ -100,6 +106,7 @@ a {
   transition: background-color 0.25s ease;
   border-radius: 4px;
 }
+
 .checkbox .checkbox__checkmark:after {
   content: "";
   position: absolute;
