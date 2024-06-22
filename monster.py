@@ -14,7 +14,6 @@ def set_headers(response, path):
         response.headers['Content-Type'] = 'image/gif'
     elif path.endswith('.woff2'):
         response.headers['Content-Type'] = 'font/woff2'
-    print(response.headers)
     return response
 
 def render(path, variables=None):
