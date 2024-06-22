@@ -14,6 +14,9 @@ def set_headers(response, path):
         response.headers['Content-Type'] = 'image/gif'
     elif path.endswith('.woff2'):
         response.headers['Content-Type'] = 'font/woff2'
+    response.headers["Cache-Control"]="no-cache, no-store, must-revalidate"
+    response.headers["Pragma"]="no-cache"
+    response.headers["Expires"]="0"
     return response
 
 def render(path, variables=None):

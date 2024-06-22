@@ -16,7 +16,7 @@ def is_valid_email(email):
     return re.match(pattern, email) is not None
 
 def User():
-    return {"name":"", "level":0, "logs":"", "email":"", "verified":False, "password":""}
+    return {"name":"", "level":0, "logs":"", "email":"", "password":""}
 
 def auth(cookies):
     if "email" in cookies:
@@ -50,10 +50,7 @@ def home():
 
 @app.get("/logout")
 def logout():
-    response=redirect("/")
-    response.set_cookie("email", "")
-    response.set_cookie("password", "")
-    return response
+    return render("logout", locals())
 
 @app.get("/auth")
 def auth_page():
@@ -82,8 +79,8 @@ def otp():
 @app.get("/api/auth")
 def auth_api():
     args=dict(request.args)
-    if "password" not in args or "email" not in args or "name" not in args or "otp" not in args:
-        return json.dumps({"error":"Missing Fields"})
+    if "password" not in args or "email" not in args:
+        return json.dumps({"error":"Missing Fields", "args":args})
     if is_valid_email(args["email"]):
         if get("emails", args["email"])["Ok"]:
             account=get("accounts", args["email"])["Value"]
@@ -92,6 +89,8 @@ def auth_api():
             else:
                 return json.dumps({"error":"Incorrect Password"})
         else:
+            if "name" not in args or "otp" not in args:
+                return json.dumps({"error":"Missing Fields", "args":args})
             if args["otp"]==get_otp(args["email"]):
                 set("emails", args["email"], str(time.time()))
                 user=User()
