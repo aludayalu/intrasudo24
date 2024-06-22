@@ -48,11 +48,25 @@ def logout():
 
 @app.get("/auth")
 def auth_page():
+    loggedIn=auth(dict(request.cookies))
+    if loggedIn["Ok"]:
+        status="Logout"
+        status_url="/logout"
+    else:
+        status="Log In"
+        status_url="/auth"
     header = render("components/header.html", locals())
     return render("components/auth.html", locals())
 
 @app.get("/otp")
 def otp():
+    loggedIn=auth(dict(request.cookies))
+    if loggedIn["Ok"]:
+        status="Logout"
+        status_url="/logout"
+    else:
+        status="Log In"
+        status_url="/auth"
     header = render("components/header.html", locals())
     return render("components/otp.html", locals())
 
