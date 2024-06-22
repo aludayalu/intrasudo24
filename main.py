@@ -20,7 +20,11 @@ def User():
 
 def auth(cookies):
     if "email" in cookies:
-        return get("emails", cookies["email"])
+        account=get("accounts", cookies["email"])
+        if account["Value"]["password"]==hashlib.sha256(cookies["password"].encode()).hexdigest():
+            return account
+        else:
+            return {"Ok":False}
     else:
         return {"Ok":False}
 

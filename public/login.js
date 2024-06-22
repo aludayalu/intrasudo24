@@ -66,6 +66,7 @@ submitBtn.addEventListener("click", ()=>{
     var name=document.getElementById("name").value.trim()
     var email=document.getElementById("email").value.trim()
     var password=document.getElementById("password").value.trim()
+    var otp="1234"
     if (signal.Value()=="signup") {
         if (name.length==0) {
             notyf.error({position: position, message:"Name field is required"})
@@ -84,7 +85,7 @@ submitBtn.addEventListener("click", ()=>{
         notyf.error({position: position, message:"Password field is required"})
         return
     }
-    fetch("/api/auth?name="+encodeURIComponent(name)+"&email="+encodeURIComponent(email)+"&password="+encodeURIComponent(password)).then(async (x)=>{
+    fetch("/api/auth?name="+encodeURIComponent(name)+"&email="+encodeURIComponent(email)+"&password="+encodeURIComponent(password)+"&otp="+otp).then(async (x)=>{
         var out=await x.text()
         try {
             var json=JSON.parse(out)
