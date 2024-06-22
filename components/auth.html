@@ -18,6 +18,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.7/src/index.min.js"></script>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="signup.css">
 
 </head>
 
@@ -41,11 +42,11 @@
 
                     <div class="flex flex-col gap-5 w-full" id="inputList">
                         <input id="name" type="text" placeholder="Enter your name"
-                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-0 scale-0">
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-0 scale-0 input">
                         <input id="email" type="text" placeholder="Enter your email"
-                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm">
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm input">
                         <input id="pwd" type="password" placeholder="Enter your password"
-                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm">
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm input">
                         <div class="flex gap-2 w-full items-center justify-start">
                             <label class="checkbox">
                                 <input type="checkbox" class="absolute opacity-0 cursor-pointer w-0 h-0" />
@@ -58,8 +59,8 @@
 
                     <div class="flex flex-row items-center w-full gap-5">
                         <button id="signup"
-                            class="w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] hover:scale-[1.02] transition hover:bg-white/[0.07]">
-                            Signup
+                            class="w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] hover:scale-[1.02] transition hover:bg-white/[0.07] signup_button signup_type1">
+                            <p class="signup_btn-txt">Signup</p>
                         </button>
                         <button id="submit"
                             class="bg-[var(--primary)] w-full py-[8px] rounded-xl text-base font-semibold text-white hover:scale-[1.02] transition">
