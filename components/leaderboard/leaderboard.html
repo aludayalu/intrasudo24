@@ -22,17 +22,9 @@
 <body>
   <div class="relative w-screen h-screen bg-[var(--background)] pt-20">
     {header}
-    <div class="px-20 flex flex-col justify-evenly text-center py-7 gap-3">
+    <div class="px-20 flex flex-col justify-evenly text-center py-7 gap-5">
       <h1 class="text-3xl font-bold">Leaderboard</h1>
-      <div class="flex justify-between flex-col gap-3">
-        <div class="flex justify-between py-4 px-4 rounded-lg">
-          <p class="pr-10">Rank</p>
-          <p class="flex-1 text-left">Name</p>
-          <p class="pr-10">Points</p>
-          <p class="w-10">Level</p>
-        </div>
-        {leaderboard}
-      </div>
+      <div class="flex justify-between flex-col gap-3">{leaderboard}</div>
     </div>
     {footer}
   </div>
