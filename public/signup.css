@@ -50,10 +50,3 @@
     color: #fff;
     transition: 300ms ease-in-out;
 }
-
-.input:focus {
-    color: black;
-    background-color: white;
-    transform: scale(1.05);
-    box-shadow: 14px 14px 100px #969696, -14px -14px 100px #ffffff;
-}
