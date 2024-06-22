@@ -74,7 +74,7 @@ submitBtn.addEventListener("click", () => {
         }
     }
     if (signal_otp.Value() == "otpscreen") {
-        if (otp.length != 6 || Number(otp)==NaN) {
+        if (otp.length != 6 || Number(otp) == NaN) {
             notyf.error({ position: position, message: "OTP format is invalid" })
             return
         }
@@ -91,9 +91,9 @@ submitBtn.addEventListener("click", () => {
         notyf.error({ position: position, message: "Password field is required" })
         return
     }
-    if (signal_otp.Value()=="signup" && signal.Value()=="signup") {
+    if (signal_otp.Value() == "signup" && signal.Value() == "signup") {
         signal_otp.setValue("otpscreen")
-        signupBtn.style.display="none"
+        signupBtn.style.display = "none"
         return
     }
     fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp).then(async (x) => {
@@ -126,15 +126,29 @@ const signal_otp = Signal("otpScreen", "signup")
 
 signal_otp.onChange = () => {
     if (signal_otp.Value() === "otpscreen") {
-        otpform_container.style.display = "block"
-        otpform_container.opacity = 0
-        otpform_container.scale = 0
-        inputList.style.display = "none"
+        otpform_container.style.display = "flex"
+        otpform_container.style.opacity = 0
+        otpform_container.style.transform = "scale(0)"
+
+        inputList.style.opacity = 0
+        inputList.style.transform = "scale(0)"
+
+        submitBtn.style.transitionProperty = "color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter"
+        submitBtn.style.opacity = 0
+        submitBtn.style.transform = "scale(0)"
 
         setTimeout(() => {
-            otpform_container.opacity = 1
-            otpform_container.scale = 1
-        }, 400);
+            inputList.style.display = "none"
+
+            otpform_container.style.opacity = 1
+            otpform_container.style.transform = "scale(1)"
+
+            submitBtn.style.transitionProperty = "color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter"
+
+            submitBtn.style.opacity = 1
+            submitBtn.style.transform = "scale(1)"
+
+        }, 300);
     }
 }
 

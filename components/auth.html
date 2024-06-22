@@ -41,7 +41,7 @@
 
                 <div class="h-[294px] flex-1 flex flex-col justify-between items-center gap-8 w-96">
 
-                    <div class="flex flex-col gap-5 w-full" id="inputList">
+                    <div class="flex flex-col gap-5 w-full transition duration-300" id="inputList">
                         <input id="name" type="text" placeholder="Enter your name"
                             class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-0 scale-0 input">
                         <input id="email" type="text" placeholder="Enter your email"
@@ -58,12 +58,12 @@
                         </div>
                     </div>
 
-                    <div id="otpform_container" class="hidden w-full">
+                    <div id="otpform_container"
+                        class="hidden w-full h-full flex-col justify-between items-center transition duration-300">
                         <div class="w-full flex flex-col items-center justify-center">
                             <h1 class="text-2xl font-bold">Email Verification</h1>
                             <p class="text-sm text-center text-white/75">Enter the 6-digit verification code that was
-                                sent
-                                to your mail.
+                                sent to your mail.
                             </p>
                         </div>
                         <div id="otp-form">
@@ -99,7 +99,7 @@
                             <p class="signup_btn-txt">Signup</p>
                         </button>
                         <button id="submit"
-                            class="bg-[var(--primary)] w-full py-[8px] rounded-xl text-base font-semibold text-white hover:scale-[1.02] transition">
+                            class="bg-[var(--primary)] w-full py-[8px] rounded-xl text-base font-semibold text-white hover:scale-[1.02] transition duration-300">
                             Submit
                         </button>
                     </div>
