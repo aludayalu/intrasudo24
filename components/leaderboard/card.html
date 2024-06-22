@@ -1,4 +1,4 @@
-<div onclick="dialogopen_{rank}()"
+<div onclick="dialogopen_main_{rank}()"
   class="flex justify-between px-4 w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] transition hover:bg-white/[0.07] cursor-pointer">
   <div class="flex gap-5">
     <p>{rank}.</p>
@@ -9,25 +9,51 @@
     <p class="w-5">{level}</p>
   </div>
 </div>
-<dialog id="dialog_{rank}"
-  class="w-96 p-5 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:backdrop-blur-sm">
-  <div class="flex flex-col gap-5">
-    <h2 class="text-xl">Logs</h2>
-    <div class="max-h-96 text-left pb-5 flex flex-col items-center overflow-y-scroll">
-      {logs}
+<dialog id="dialog_main_{rank}"
+  class="w-[60vw] h-[60vh] p-5 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:backdrop-blur-sm">
+  <div class="flex items-center gap-10 justify-center w-full h-full">
+    <img class="rounded-[100%] w-80 h-80"
+      src="https://api.dicebear.com/6.x/initials/svg?backgroundType=gradientLinear&seed={name}" alt="random pfp" />
+    <div class="flex flex-col gap-2 text-left">
+      <h1 class="text-7xl">{name}</h1>
+      <p class="text-white/[0.15]">
+        Rank: {rank} • Points: {points} • Level: {level} •
+        <button onclick="dialogopen_internal_{rank}()" class="outline-none underline">
+          Logs
+        </button>
+      </p>
+      <button onclick="dialogclose_main_{rank}()" class="outline-none bg-white text-black py-2 rounded-lg">
+        Close
+      </button>
     </div>
-    <button onclick="dialogclose_{rank}()" class="outline bg-white text-black py-2 rounded-lg">
-      Close
-    </button>
   </div>
+  <dialog id="dialog_internal_{rank}"
+    class="w-screen h-screen p-5 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:backdrop-blur-sm">
+    <div class="flex flex-col gap-5">
+      <h2 class="text-xl">Logs</h2>
+      <div class="h-full text-left pb-5 flex flex-col items-center overflow-y-scroll scroll">
+        {logs}
+      </div>
+      <button onclick="dialogclose_internal_{rank}()" class="outline-none bg-white text-black py-2 rounded-lg">
+        Close
+      </button>
+    </div>
+  </dialog>
 </dialog>
 
 <script>
-  const modal_{rank} = document.getElementById("dialog_{rank}");
-  function dialogopen_{rank} () {
-    modal_{rank}.showModal();
+  const modal_main_{rank} = document.getElementById("dialog_main_{rank}");
+  const modal_internal_{rank} = document.getElementById("dialog_internal_{rank}");
+  function dialogopen_main_{rank} () {
+    modal_main_{rank}.showModal();
   }
-  function dialogclose_{rank} () {
-    modal_{rank}.close();
+  function dialogclose_main_{rank} () {
+    modal_main_{rank}.close();
+  }
+  function dialogopen_internal_{rank} () {
+    modal_internal_{rank}.showModal();
+  }
+  function dialogclose_internal_{rank} () {
+    modal_internal_{rank}.close();
   }
 </script>
