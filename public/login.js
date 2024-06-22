@@ -21,6 +21,7 @@ signal.onChange = () => {
     if (temp === "Login") {
         document.getElementById("name").style.transform = "scale(0)";
         document.getElementById("name").style.opacity = "0";
+        submitBtn.innerText="Signup"
 
         setTimeout(() => {
             document.getElementById("name").style.transform = "scale(1)";
@@ -28,6 +29,7 @@ signal.onChange = () => {
         }, 100);
     }
     if (temp === "Signup") {
+        submitBtn.innerText="Login"
         document.getElementById("name").style.transform = "scale(0)";
         document.getElementById("name").style.opacity = "0";
     }
