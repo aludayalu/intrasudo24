@@ -113,3 +113,15 @@ a {
   opacity: 0;
   transition: opacity 0.25s ease;
 }
+
+.signinbtn {
+    height: 6vh;
+    width: 25vw;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0px 7px 0px 0px #9a9a9a;
+    color: black;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
