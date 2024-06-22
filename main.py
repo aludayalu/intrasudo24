@@ -83,7 +83,7 @@ def otp():
 def auth_api():
     args=dict(request.args)
     if "password" not in args or "email" not in args or "name" not in args or "otp" not in args:
-        return json.dumps({"error":"Missing Fields"})
+        return json.dumps({"error":"Missing Fields", "args":args})
     if is_valid_email(args["email"]):
         if get("emails", args["email"])["Ok"]:
             account=get("accounts", args["email"])["Value"]
