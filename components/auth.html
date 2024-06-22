@@ -41,40 +41,63 @@
 
                 <div class="h-[294px] flex-1 flex flex-col justify-between items-center gap-8 w-96">
 
-                    <div class="w-full flex flex-col items-center justify-center">
-                        <h1 class="text-2xl font-bold">Email Verification</h1>
-                        <p class="text-sm text-center text-white/75">Enter the 6-digit verification code that was sent
-                            to your mail.
-                        </p>
-                    </div>
-                    <form id="otp-form">
-                        <div class="flex items-center justify-center gap-3">
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
-                            <input type="number"
-                                class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
-                                maxlength="1" />
+                    <div class="flex flex-col gap-5 w-full" id="inputList">
+                        <input id="name" type="text" placeholder="Enter your name"
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-0 scale-0 input">
+                        <input id="email" type="text" placeholder="Enter your email"
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm input">
+                        <input id="password" type="password" placeholder="Enter your password"
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm input">
+                        <div class="flex gap-2 w-full items-center justify-start">
+                            <label class="checkbox">
+                                <input type="checkbox" class="absolute opacity-0 cursor-pointer w-0 h-0" />
+                                <div class="checkbox__checkmark bg-[var(--background)] border border-white/[0.35]">
+                                </div>
+                                <div class="text-white/75 text-sm">Stay Signed In</div>
+                            </label>
                         </div>
-                    </form>
-                    <div class="text-sm text-slate-500">Didn't receive code? <a
-                            class="font-medium text-indigo-500 hover:text-indigo-600" href="#0">Resend</a>
                     </div>
 
+                    <div id="otpform_container" class="hidden w-full">
+                        <div class="w-full flex flex-col items-center justify-center">
+                            <h1 class="text-2xl font-bold">Email Verification</h1>
+                            <p class="text-sm text-center text-white/75">Enter the 6-digit verification code that was
+                                sent
+                                to your mail.
+                            </p>
+                        </div>
+                        <div id="otp-form">
+                            <div class="flex items-center justify-center gap-3">
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                                <input type="number"
+                                    class="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2"
+                                    maxlength="1" />
+                            </div>
+                        </div>
+                        <div class="text-sm text-slate-500">Didn't receive code? <a
+                                class="font-medium text-indigo-500 hover:text-indigo-600" href="#0">Resend</a>
+                        </div>
+                    </div>
 
                     <div class="flex flex-row items-center w-full gap-5">
+                        <button id="signup"
+                            class="w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] hover:scale-[1.02] transition hover:bg-white/[0.07] signup_button signup_type1">
+                            <p class="signup_btn-txt">Signup</p>
+                        </button>
                         <button id="submit"
                             class="bg-[var(--primary)] w-full py-[8px] rounded-xl text-base font-semibold text-white hover:scale-[1.02] transition">
                             Submit

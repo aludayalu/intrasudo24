@@ -106,6 +106,26 @@ submitBtn.addEventListener("click", () => {
 })
 
 
+
+const otpform_container = document.getElementById("otpform_container");
+
+
+const signal_otp = Signal("otpScreen", "signup")
+
+signal_otp.onChange = () => {
+    if (signal_otp.Value() === "otpscreen") {
+        otpform_container.style.display = "block"
+        otpform_container.opacity = 0
+        otpform_container.scale = 0
+
+        setTimeout(() => {
+            otpform_container.opacity = 1
+            otpform_container.scale = 1
+        }, 400);
+    }
+}
+
+
 const form = document.getElementById('otp-form')
 const inputs = [...form.querySelectorAll('input[type=number]')]
 const submit = form.querySelector('#submit')
@@ -125,7 +145,7 @@ const handleKeyDown = (e) => {
         const index = inputs.indexOf(e.target);
         inputs[index].value = '';
         if (index > 0) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 inputs[index - 1].focus();
             }, 100)
         }
