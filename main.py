@@ -21,6 +21,8 @@ def User():
 def auth(cookies):
     if "email" in cookies:
         account=get("accounts", cookies["email"])
+        if account["Ok"]==False:
+            return account
         if account["Value"]["password"]==hashlib.sha256(cookies["password"].encode()).hexdigest():
             return account
         else:
