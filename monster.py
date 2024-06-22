@@ -1,6 +1,19 @@
 import uuid, json
 from flask import send_from_directory
 
+def set_headers(response, path):
+    if path.endswith('.js'):
+        response.headers['Content-Type'] = 'application/javascript'
+    elif path.endswith('.css'):
+        response.headers['Content-Type'] = 'text/css'
+    elif path.endswith('.png'):
+        response.headers['Content-Type'] = 'image/png'
+    elif path.endswith('.jpg') or path.endswith('.jpeg'):
+        response.headers['Content-Type'] = 'image/jpeg'
+    elif path.endswith('.gif'):
+        response.headers['Content-Type'] = 'image/gif'
+    return response
+
 def render(path, variables=None):
     try:
         component=open(path).read()
@@ -26,4 +39,4 @@ def render(path, variables=None):
 def init(app):
     @app.route('/<path:path>')
     def catch_all(path):
-        return send_from_directory("public", path)
+        return set_headers(send_from_directory("public", path), path)
