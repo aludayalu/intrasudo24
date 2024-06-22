@@ -95,37 +95,89 @@ for (var i = 0; i < maxConfettis; i++) {
 
 canvas.width = W;
 canvas.height = H;
-Draw();
+
+
+const showConfetti = getCookie("showConfetti")
 
 document.addEventListener("DOMContentLoaded", () => {
     (async () => {
-        document.querySelector("#random div").style.display = "none"
-        document.querySelector("#random div").style.position = "absolute"
-        document.querySelector("#random div").style.top = window.innerHeight + 30 + "px"
-        document.querySelector("#random div").style.opacity = 0
+        if (showConfetti == "true") {
+            Draw();
 
-        new Promise(function (resolve) {
-            setTimeout(() => {
-                document.getElementById("confetti_div").style.opacity = 0
-                document.querySelector("#random div").style.display = "block"
-                resolve();
-            }, 3000)
-        }).then(() => {
+            document.querySelector("#random div").style.display = "none"
+            document.querySelector("#random div").style.position = "absolute"
+            document.querySelector("#random div").style.top = window.innerHeight + 30 + "px"
+            document.querySelector("#random div").style.opacity = 0
+
             new Promise(function (resolve) {
                 setTimeout(() => {
-                    document.getElementById("confetti_div").style.display = "none"
+                    document.getElementById("confetti_div").style.opacity = 0
+                    document.querySelector("#random div").style.display = "block"
+                    resolve();
+                }, 3000)
+            }).then(() => {
+                new Promise(function (resolve) {
+                    setTimeout(() => {
+                        document.getElementById("confetti_div").style.display = "none"
+                        document.querySelector("#random div").style.top = "0px"
+                        document.querySelector("#random div").style.opacity = 1
+                        resolve();
+                    }, 300)
+                }).then(() => {
+                    new Promise(function (resolve) {
+                        setTimeout(() => {
+                            document.querySelector("#random div").style.position = "static";
+                            setCookie("showConfetti", "false");
+                            resolve();
+                        }, 350)
+                    })
+                })
+            })
+        }
+        else {
+            document.getElementById("confetti_div").style.display = "none"
+
+            document.querySelector("#random div").style.display = "block"
+            document.querySelector("#random div").style.position = "absolute"
+            document.querySelector("#random div").style.top = window.innerHeight + 30 + "px"
+            document.querySelector("#random div").style.opacity = 0
+
+
+            new Promise(function (resolve) {
+                setTimeout(() => {
                     document.querySelector("#random div").style.top = "0px"
                     document.querySelector("#random div").style.opacity = 1
+                    window.scrollY = 0
                     resolve();
                 }, 300)
             }).then(() => {
                 new Promise(function (resolve) {
                     setTimeout(() => {
                         document.querySelector("#random div").style.position = "static"
+                        window.scrollY = 0
                         resolve();
                     }, 350)
                 })
             })
-        })
+        }
     })()
 })
+
+
+
+function setCookie(name, value) {
+    var date = new Date();
+    date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}

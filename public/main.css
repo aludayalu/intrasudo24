@@ -21,53 +21,99 @@ canvas {
   margin: 0;
 }
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
 }
 
 .title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 16px;
-    text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 .subtitle {
-    font-size: 1.125rem;
-    margin-bottom: 8px;
+  font-size: 1.125rem;
+  margin-bottom: 8px;
 }
 
 .primary-link {
-    color: var(--primary);
+  color: var(--primary);
 }
 
 .nabhay-rounded-lg {
-    margin: 16px 0;
-    padding: 16px;
-    background-color: var(--background);
-    border: 1px solid #ccc;
-    border-radius: 10px;
+  margin: 16px 0;
+  padding: 16px;
+  background-color: var(--background);
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 h4 {
-    margin: 0 0 8px 0;
+  margin: 0 0 8px 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .vertical {
-    text-align: center;
+  text-align: center;
+}
+
+.checkbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.checkbox input:checked ~ .checkbox__checkmark {
+  background-color: var(--primary);
+}
+.checkbox input:checked ~ .checkbox__checkmark:after {
+  opacity: 1;
+}
+.checkbox:hover input ~ .checkbox__checkmark {
+  background-color: var(--background);
+}
+.checkbox:hover input:checked ~ .checkbox__checkmark {
+  background-color: var(--primary);
+}
+.checkbox .checkbox__checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--background);
+  transition: background-color 0.25s ease;
+  border-radius: 4px;
+}
+.checkbox .checkbox__checkmark:after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid #eee;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
