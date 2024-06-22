@@ -24,5 +24,15 @@ def home():
     confetti = render("components/confetti.html", locals())
     return render("components/index.html", locals())
 
+@app.get("/auth")
+def auth():
+    header = render("components/header.html", locals())
+    return render("components/auth.html", locals())
+
+@app.get("/otp")
+def otp():
+    header = render("components/header.html", locals())
+    return render("components/otp.html", locals())
+
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
