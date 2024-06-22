@@ -97,7 +97,9 @@ submitBtn.addEventListener("click", () => {
     if (signal_otp.Value() == "signup" && signal.Value() == "signup") {
         signal_otp.setValue("otpscreen")
         signupBtn.style.display = "none"
-        fetch("/send_otp?email=" + encodeURIComponent(email))
+        fetch("/send_otp?email=" + encodeURIComponent(email)).then((x)=>{
+            notyf.success({ position: position, message: "OTP sent" })
+        })
         return
     }
     fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp).then(async (x) => {
@@ -115,7 +117,7 @@ submitBtn.addEventListener("click", () => {
                 window.location = "/"
             }, 1000)
         } else {
-            notyf.error({ position: position, message: "Authentication Failed: " + out })
+            notyf.error({ position: position, message: "Authentication Failed: " + json["error"] })
         }
     })
 })
@@ -155,6 +157,13 @@ signal_otp.onChange = () => {
         }, 300);
     }
 }
+
+document.getElementById("resend_otp").addEventListener("click", ()=>{
+    var email = document.getElementById("email").value.trim()
+    fetch("/send_otp?email=" + encodeURIComponent(email)).then((x)=>{
+        notyf.success({ position: position, message: "OTP sent" })
+    })
+})
 
 
 const form = document.getElementById('otp-form')
