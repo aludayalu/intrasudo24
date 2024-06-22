@@ -1,6 +1,7 @@
 import resend
+from secrets_parser import parse
 
-resend.api_key="re_QpBXG2Qe_Pu5foXSoNZHRM8wRPNpyAWFN"
+resend.api_key=parse("variables.txt")["resend_key"]
 
 def mail(to, subject, content):
     params = {

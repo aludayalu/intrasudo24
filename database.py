@@ -1,6 +1,8 @@
-from variables import database_uri
 from urllib.parse import quote
 import json, requests
+from secrets_parser import parse
+
+database_uri=parse("variables.txt")["database_uri"]
 
 def get(table, key):
     out=requests.get(database_uri+"/get?key="+quote(table+"/"+key)).text
