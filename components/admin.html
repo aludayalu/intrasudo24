@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --primary: #1a9de6;
+    --foreground: #ffffff;
+    --background: #0d0e11;
+    --popup-background: rgba(0, 0, 0, 0.8);
+  }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    min-height: 100vh; /* Ensure full viewport height */
+  }
+
+  .level-container {
+    width: 250px;
+    margin: 10px;
+    background-color: #1f2124;
+    color: var(--foreground);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 20px;
+    color: var(--foreground);
+    margin-bottom: 10px;
+  }
+
+  button {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #147bb1;
+  }
+
+  .popup-container {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--popup-background);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .popup-content {
+    width: 80%;
+    max-width: 1200px; /* Adjust maximum width as needed */
+    margin: 0 auto;
+    background-color: var(--background);
+    color: var(--foreground);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--foreground);
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .display-box, .text-box {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+  }
+
+  .display-box {
+    background-color: var(--primary);
+    color: var(--foreground);
+    padding-bottom: calc(50% - 10px);
+  }
+
+  .text-box {
+    background-color: var(--background);
+    color: var(--foreground);
+    padding-top: calc(50% - 10px);
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: var(--background);
+    color: var(--foreground);
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    overflow-y: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .input-box {
+    width: 100%;
+    text-align: left;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .submit-btn, .cancel-btn {
+    background-color: var(--primary);
+    color: var(--foreground);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+  }
+
+  .submit-btn:hover, .cancel-btn:hover {
+    background-color: #147bb1;
+  }
+
+  .markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+</style>
+<title>Styled Level Containers</title>
+</head>
+<body>
+
+<div class="level-container">
+  <h2 id="level-id1">Level ID 1</h2>
+  <button class="edit-level-btn" onclick="openPopup(1)">Edit Level 1</button>
+</div>
+
+<div class="level-container">
+  <h2 id="level-id2">Level ID 2</h2>
+  <button class="edit-level-btn" onclick="openPopup(2)">Edit Level 2</button>
+</div>
+
+<!-- Popup container -->
+<div class="popup-container" id="popupContainer">
+  <div class="popup-content" id="popupContent">
+    <div class="display-box" id="displayBox">
+      <!-- Placeholder content for illustration -->
+      Display Box Content
+    </div>
+    <div class="text-box">
+      <textarea class="input-field" id="inputField" placeholder="Enter Markdown or URL"></textarea>
+    </div>
+    <div class="input-box">
+      <input type="text" id="sourceHintField" class="input-field" placeholder="Source Hint">
+    </div>
+    <div class="input-box">
+      <input type="text" id="answerField" class="input-field" placeholder="Answer">
+    </div>
+    <div class="button-container">
+      <button class="submit-btn" onclick="submitForm()">Submit</button>
+      <button class="cancel-btn" onclick="closePopup()">Cancel</button>
+    </div>
+  </div>
+  <button class="close-btn" onclick="closePopup()">Close</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  const converter = new showdown.Converter();
+  const inputEl = document.getElementById('inputField');
+  const displayEl = document.getElementById('displayBox');
+  const popupContainer = document.getElementById('popupContainer');
+  const popupContent = document.getElementById('popupContent');
+  const sourceHintField = document.getElementById('sourceHintField');
+  const answerField = document.getElementById('answerField');
+
+  function updateDisplay() {
+    const inputValue = inputEl.value.trim();
+    
+    if (isImageLink(inputValue)) {
+      displayEl.innerHTML = `<div class="image-content"><img src="${inputValue}" alt="Image"></div>`;
+    } else if (isUrl(inputValue)) {
+      displayEl.innerHTML = `<div class="text-content">${inputValue}</div>`;
+    } else {
+      const html = converter.makeHtml(inputValue);
+      displayEl.innerHTML = `<div class="text-content">${html}</div>`;
+      
+      const markdownContent = displayEl.querySelector('.markdown-content');
+      if (markdownContent) {
+        const images = markdownContent.querySelectorAll('img');
+        images.forEach(img => {
+          img.classList.add('markdown-image');
+        });
+      }
+    }
+  }
+  
+  function isImageLink(url) {
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+    const extensionRegex = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i;
+    
+    const matches = url.match(extensionRegex);
+    if (matches) {
+      const extension = matches[1] || matches[2];
+      const lowerCaseExtension = extension.toLowerCase();
+      
+      return imageExtensions.includes(lowerCaseExtension);
+    }
+    
+    return false;
+  }
+  
+  function isUrl(text) {
+    return text.startsWith('http://') || text.startsWith('https://');
+  }
+  
+  inputEl.addEventListener('input', updateDisplay);
+
+  function openPopup(levelNumber) {
+    const popupTitle = document.getElementById('level-id' + levelNumber).textContent;
+    const inputValue = document.getElementById('level-id' + levelNumber).nextElementSibling.textContent.trim();
+    
+    popupContent.querySelector('.display-box').textContent = popupTitle;
+    inputEl.value = inputValue;
+    sourceHintField.value = ''; // Clear source hint field
+    answerField.value = ''; // Clear answer field
+    popupContainer.style.display = 'flex';
+    updateDisplay(); // Update display when popup opens
+  }
+
+  function closePopup(){
+    popupContainer.style.display = 'none';
+  }
+
+  function submitForm() {
+    const sourceHint = sourceHintField.value.trim();
+    const answer = answerField.value.trim();
+
+    // Example: log the values (you can replace this with actual submission logic)
+    console.log("Source Hint:", sourceHint);
+    console.log("Answer:", answer);
+
+    closePopup(); // Close the popup after submission
+  }
+</script>
+
+</body>
+</html>
