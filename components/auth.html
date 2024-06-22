@@ -35,15 +35,16 @@
 
                 <div class="flex flex-col items-center gap-8 w-40">
                     <img src="logo_nobg.png" alt="" class="rounded-xl w-32">
-                    <p class="text-5xl font-extrabold" id="authTxt">Login</p>
+                    <p class="text-5xl font-extrabold" id="authTxt">Signup</p>
                     <a href="mailto:exun@dpsrkp.net" class="text-sm">Need Help?</a>
                 </div>
 
                 <div class="h-[294px] flex-1 flex flex-col justify-between items-center gap-8 w-96">
 
-                    <div class="flex flex-col gap-5 w-full transition duration-300" id="inputList">
+                    <div class="flex flex-col gap-5 w-full transition duration-300 relative translate-x-0"
+                        id="inputList">
                         <input id="name" type="text" placeholder="Enter your name"
-                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-0 scale-0 input">
+                            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input">
                         <input id="email" type="text" placeholder="Enter your email"
                             class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm input">
                         <input id="password" type="password" placeholder="Enter your password"
@@ -96,11 +97,11 @@
                     <div class="flex flex-row items-center w-full gap-5">
                         <button id="signup"
                             class="w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] hover:scale-[1.02] transition hover:bg-white/[0.07] signup_button signup_type1">
-                            <p class="signup_btn-txt">Signup</p>
+                            <p class="signup_btn-txt">Login</p>
                         </button>
                         <button id="submit"
                             class="bg-[var(--primary)] w-full py-[8px] rounded-xl text-base font-semibold text-white hover:scale-[1.02] transition duration-300">
-                            Login
+                            Signup
                         </button>
                     </div>
                 </div>

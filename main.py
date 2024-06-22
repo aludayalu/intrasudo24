@@ -156,7 +156,7 @@ def otp():
 @app.get("/api/auth")
 def auth_api():
     args = dict(request.args)
-    if "password" not in args or "email" not in args:
+    if "password" not in args or "email" not in args or "method" not in args:
         return json.dumps({"error": "Missing Fields", "args": args})
     if is_valid_email(args["email"]):
         if get("emails", args["email"])["Ok"]:
@@ -180,7 +180,10 @@ def auth_api():
                 set("accounts", args["email"], user)
                 return json.dumps({"success": True})
             else:
-                return json.dumps({"error": "Wrong OTP"})
+                if args["method"]=="login":
+                    return json.dumps({"error":"Account does not exist"})
+                else:
+                    return json.dumps({"error": "Wrong OTP"})
     return json.dumps({"error": "Invalid Email"})
 
 
