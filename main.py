@@ -25,7 +25,7 @@ def home():
     return render("components/index.html", locals())
 
 @app.get("/auth")
-def auth():
+def auth_page():
     header = render("components/header.html", locals())
     return render("components/auth.html", locals())
 
