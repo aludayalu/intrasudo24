@@ -67,7 +67,6 @@ def home():
 def leaderboard():
     fetchedData = [{"name": "AyonC", "level": 1}, {"name": "Alu", "level": 10}]
     fetchedData.sort(key=lambda data: data["level"], reverse=True)
-    print(fetchedData)
 
     leaderboard = []
 
