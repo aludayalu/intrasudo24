@@ -3,7 +3,7 @@ from flask import Flask, request, redirect
 from monster import render, init
 from database import get, set
 from mailer import mail
-import re, hashlib
+import re, hashlib, random
 from secrets_parser import parse
 
 salt=parse("variables.txt")["salt"]
@@ -92,14 +92,33 @@ def auth_api():
             else:
                 return json.dumps({"error":"Incorrect Password"})
         else:
-            set("emails", args["email"], str(time.time()))
-            user=User()
-            user["email"]=args["email"]
-            user["name"]=args["name"]
-            user["password"]=hashlib.sha256(args["password"].encode()).hexdigest()
-            set("accounts", args["email"], user)
-            return json.dumps({"success":True})
+            if args["otp"]==get_otp(args["email"]):
+                set("emails", args["email"], str(time.time()))
+                user=User()
+                user["email"]=args["email"]
+                user["name"]=args["name"]
+                user["password"]=hashlib.sha256(args["password"].encode()).hexdigest()
+                set("accounts", args["email"], user)
+                return json.dumps({"success":True})
+            else:
+                return json.dumps({"error":"Wrong OTP"})
     return json.dumps({"error":"Invalid Email"})
 
+def get_otp(email):
+    digest=hashlib.sha256(email.encode()).digest()
+    random.seed(int.from_bytes(digest, "big"))
+    otp=str(random.randint(0, 999999))
+    return "0"*(6-len(otp))+otp
+
+@app.get("/send_otp")
+def sendotp():
+    args=dict(request.args)
+    if "email" not in args:
+        return json.dumps({"error":"Missing Fields"})
+    if is_valid_email(args["email"]):
+        mail(args["email"], "Intra Sudo 2024 OTP Verification", "Here is your OTP<br>"+get_otp(args["email"]))
+        return json.dumps({"otp":"success"})
+    else:
+        return json.dumps({"error":"Invalid Email"})
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))

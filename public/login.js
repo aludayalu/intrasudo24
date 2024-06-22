@@ -66,7 +66,10 @@ submitBtn.addEventListener("click", () => {
     var name = document.getElementById("name").value.trim()
     var email = document.getElementById("email").value.trim()
     var password = document.getElementById("password").value.trim()
-    var otp = "1234"
+    var otp = ""
+    inputs.forEach((x) => {
+        otp += String(Number(x.value))
+    })
     if (signal.Value() == "signup") {
         if (name.length == 0) {
             notyf.error({ position: position, message: "Name field is required" })
@@ -94,6 +97,7 @@ submitBtn.addEventListener("click", () => {
     if (signal_otp.Value() == "signup" && signal.Value() == "signup") {
         signal_otp.setValue("otpscreen")
         signupBtn.style.display = "none"
+        fetch("/send_otp?email=" + encodeURIComponent(email))
         return
     }
     fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp).then(async (x) => {
