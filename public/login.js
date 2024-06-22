@@ -125,10 +125,11 @@ const handleKeyDown = (e) => {
 
     if (e.key === 'Delete' || e.key === 'Backspace') {
         const index = inputs.indexOf(e.target);
-
         inputs[index].value = '';
-        if (index > 1) {
-            inputs[index - 1].focus();
+        if (index > 0) {
+            setTimeout(()=>{
+                inputs[index - 1].focus();
+            }, 100)
         }
 
     }
@@ -137,6 +138,9 @@ const handleKeyDown = (e) => {
 const handleInput = (e) => {
     const { target } = e
     const index = inputs.indexOf(target)
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+        return
+    }
     if (target.value) {
         if (index < inputs.length - 1) {
             inputs[index + 1].focus()
