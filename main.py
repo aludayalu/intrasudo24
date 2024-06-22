@@ -50,10 +50,7 @@ def home():
 
 @app.get("/logout")
 def logout():
-    response=redirect("/")
-    response.set_cookie("email", "")
-    response.set_cookie("password", "")
-    return response
+    return render("logout", locals())
 
 @app.get("/auth")
 def auth_page():
