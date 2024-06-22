@@ -16,7 +16,7 @@ def is_valid_email(email):
     return re.match(pattern, email) is not None
 
 def User():
-    return {"name":"", "level":0, "logs":"", "email":"", "verified":False, "password":""}
+    return {"name":"", "level":0, "logs":"", "email":"", "password":""}
 
 def auth(cookies):
     if "email" in cookies:
