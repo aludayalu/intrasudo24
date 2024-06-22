@@ -5,7 +5,7 @@ const submitBtn = document.getElementById("submit")
 
 const authTxt = document.getElementById("authTxt")
 
-const signal = Signal("authstate", "login")
+const signal = Signal("authstate", "signup")
 
 function isValidEmail(email) {
     const pattern = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@dpsrkp\.net$/;
@@ -21,7 +21,7 @@ signal.onChange = () => {
     if (temp === "Login") {
         document.getElementById("name").style.transform = "scale(0)";
         document.getElementById("name").style.opacity = "0";
-        submitBtn.innerText="Signup"
+        submitBtn.innerText = "Signup"
 
         setTimeout(() => {
             document.getElementById("name").style.transform = "scale(1)";
@@ -29,7 +29,7 @@ signal.onChange = () => {
         }, 100);
     }
     if (temp === "Signup") {
-        submitBtn.innerText="Login"
+        submitBtn.innerText = "Login"
         document.getElementById("name").style.transform = "scale(0)";
         document.getElementById("name").style.opacity = "0";
     }
@@ -41,22 +41,6 @@ signupBtn.addEventListener("click", () => {
 
 var notyf = new Notyf();
 var position = { x: "center", y: "top" }
-
-function cookie_get(key) {
-    try {
-        var cookies = {}
-        for (var x in document.cookie.split("; ")) {
-            var raw_data = document.cookie.split("; ")[x].split("=")
-            cookies[raw_data[0]] = raw_data[1]
-        }
-        if (key in cookies) {
-            return cookies[key]
-        }
-        return ""
-    } catch {
-        return ""
-    }
-}
 
 function cookie_set(key, val) {
     try {
@@ -99,7 +83,7 @@ submitBtn.addEventListener("click", () => {
     if (signal_otp.Value() == "signup" && signal.Value() == "signup") {
         signal_otp.setValue("otpscreen")
         signupBtn.style.display = "none"
-        fetch("/send_otp?email=" + encodeURIComponent(email)).then((x)=>{
+        fetch("/send_otp?email=" + encodeURIComponent(email)).then((x) => {
             notyf.success({ position: position, message: "OTP sent" })
         })
         return
@@ -138,8 +122,8 @@ signal_otp.onChange = () => {
         otpform_container.style.opacity = 0
         otpform_container.style.transform = "scale(0)"
 
+        inputList.style.transform = "translateX(-200px)"
         inputList.style.opacity = 0
-        inputList.style.transform = "scale(0)"
 
         submitBtn.style.transitionProperty = "color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter"
         submitBtn.style.opacity = 0
@@ -160,9 +144,9 @@ signal_otp.onChange = () => {
     }
 }
 
-document.getElementById("resend_otp").addEventListener("click", ()=>{
+document.getElementById("resend_otp").addEventListener("click", () => {
     var email = document.getElementById("email").value.trim()
-    fetch("/send_otp?email=" + encodeURIComponent(email)).then((x)=>{
+    fetch("/send_otp?email=" + encodeURIComponent(email)).then((x) => {
         notyf.success({ position: position, message: "OTP sent" })
     })
 })
