@@ -58,10 +58,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 .wrapper {
   display: flex;
   align-items: center;
