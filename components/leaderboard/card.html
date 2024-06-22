@@ -1,7 +1,26 @@
-<div
+<div onclick="dialogopen_{rank}()"
   class="flex justify-between px-4 w-full py-[8px] rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] transition hover:bg-white/[0.07] cursor-pointer">
-  <p class="pr-[75px]">{rank}.</p>
-  <p class="flex-1 text-left">{name}</p>
-  <p class="pr-[100px]">{points}</p>
-  <p class="w-5">{level}</p>
+  <div class="flex gap-5">
+    <p>{rank}.</p>
+    <p>{name}</p>
+  </div>
+  <div class="flex gap-5">
+    <p>{points}</p>
+    <p class="w-5">{level}</p>
+  </div>
 </div>
+<dialog id="dialog_{rank}"
+  class="w-96 h-96 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:blur-xl">
+  {logs}
+  <button onclick="dialogclose_{rank}()">Close</button>
+</dialog>
+
+<script>
+  const modal_{rank} = document.getElementById("dialog_{rank}");
+  function dialogopen_{rank} () {
+    modal_{rank}.showModal();
+  }
+  function dialogclose_{rank} () {
+    modal_{rank}.close();
+  }
+</script>

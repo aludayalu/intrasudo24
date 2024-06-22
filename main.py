@@ -65,7 +65,10 @@ def home():
 
 @app.get("/leaderboard")
 def leaderboard():
-    fetchedData = [{"name": "AyonC", "level": 1}, {"name": "Alu", "level": 10}]
+    fetchedData = [
+        {"name": "AyonC", "level": 1, "logs": ["adsf", "dosometing"]},
+        {"name": "Alu", "level": 10, "logs": []},
+    ]
     fetchedData.sort(key=lambda data: data["level"], reverse=True)
 
     leaderboard = []
@@ -74,6 +77,10 @@ def leaderboard():
         name = fetchedData[i]["name"]
         level = fetchedData[i]["level"]
         points = 1
+        logs = []
+        for log in fetchedData[i]["logs"]:
+            logs.append(render("components/leaderboard/modal.html", locals()))
+
         rank = i + 1
 
         leaderboard.append(render("components/leaderboard/card.html", locals()))
