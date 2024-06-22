@@ -73,6 +73,12 @@ submitBtn.addEventListener("click", () => {
             return
         }
     }
+    if (signal_otp.Value() == "otpscreen") {
+        if (otp.length != 6 || Number(otp)==NaN) {
+            notyf.error({ position: position, message: "OTP format is invalid" })
+            return
+        }
+    }
     if (email.length == 0) {
         notyf.error({ position: position, message: "Email field is required" })
         return
@@ -83,6 +89,11 @@ submitBtn.addEventListener("click", () => {
     }
     if (password.length == 0) {
         notyf.error({ position: position, message: "Password field is required" })
+        return
+    }
+    if (signal_otp.Value()=="signup" && signal.Value()=="signup") {
+        signal_otp.setValue("otpscreen")
+        signupBtn.style.display="none"
         return
     }
     fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp).then(async (x) => {
@@ -108,6 +119,7 @@ submitBtn.addEventListener("click", () => {
 
 
 const otpform_container = document.getElementById("otpform_container");
+const inputList = document.getElementById("inputList")
 
 
 const signal_otp = Signal("otpScreen", "signup")
@@ -117,6 +129,7 @@ signal_otp.onChange = () => {
         otpform_container.style.display = "block"
         otpform_container.opacity = 0
         otpform_container.scale = 0
+        inputList.style.display = "none"
 
         setTimeout(() => {
             otpform_container.opacity = 1

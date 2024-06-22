@@ -2,8 +2,8 @@ var signals={}
 
 function Derived_From(id, func) {
     var signal={"Id":id, "Value":func, "onChange":()=>{}, "setValue":(value)=>{
+        signals[id].Value=()=>value
         signals[id].onChange()
-        signals[id].value=()=>value
     }}
     signals[id]=signal
     return signal
@@ -11,8 +11,8 @@ function Derived_From(id, func) {
 
 function Signal(id, value) {
     var signal={"Id":id, "Value":()=>value, "onChange":()=>{}, "setValue":(value)=>{
-        signals[id].onChange()
         signals[id].Value=()=>value
+        signals[id].onChange()
     }}
     signals[id]=signal
     return signal
