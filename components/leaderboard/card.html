@@ -10,9 +10,16 @@
   </div>
 </div>
 <dialog id="dialog_{rank}"
-  class="w-96 h-96 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:blur-xl">
-  {logs}
-  <button onclick="dialogclose_{rank}()">Close</button>
+  class="w-96 p-5 rounded-xl text-base font-semibold text-white/[0.95] border border-white/[0.15] bg-[var(--background)] backdrop:backdrop-blur-sm">
+  <div class="flex flex-col gap-5">
+    <h2 class="text-xl">Logs</h2>
+    <div class="max-h-96 text-left pb-5 flex flex-col items-center overflow-y-scroll">
+      {logs}
+    </div>
+    <button onclick="dialogclose_{rank}()" class="outline bg-white text-black py-2 rounded-lg">
+      Close
+    </button>
+  </div>
 </dialog>
 
 <script>
