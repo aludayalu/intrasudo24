@@ -4,6 +4,9 @@ from monster import render, init
 from database import get, set
 from mailer import mail
 import re, hashlib
+from secrets_parser import parse
+
+salt=parse("variables.txt")["salt"]
 
 app=Flask(__name__)
 init(app)
