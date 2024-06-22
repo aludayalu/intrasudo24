@@ -80,19 +80,19 @@ a {
   user-select: none;
 }
 
-.checkbox input:checked~.checkbox__checkmark {
+.checkbox input:checked ~ .checkbox__checkmark {
   background-color: var(--primary);
 }
 
-.checkbox input:checked~.checkbox__checkmark:after {
+.checkbox input:checked ~ .checkbox__checkmark:after {
   opacity: 1;
 }
 
-.checkbox:hover input~.checkbox__checkmark {
+.checkbox:hover input ~ .checkbox__checkmark {
   background-color: var(--background);
 }
 
-.checkbox:hover input:checked~.checkbox__checkmark {
+.checkbox:hover input:checked ~ .checkbox__checkmark {
   background-color: var(--primary);
 }
 
@@ -139,4 +139,26 @@ input[type="number"]::-webkit-outer-spin-button {
   -moz-appearance: none;
   appearance: none;
   margin: 0;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
