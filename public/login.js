@@ -88,7 +88,7 @@ submitBtn.addEventListener("click", () => {
         })
         return
     }
-    fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp).then(async (x) => {
+    fetch("/api/auth?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password) + "&otp=" + otp+"&method="+signal.Value()).then(async (x) => {
         var out = await x.text()
         try {
             var json = JSON.parse(out)
