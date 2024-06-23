@@ -97,8 +97,7 @@ canvas.width = W;
 canvas.height = H;
 
 
-// const showConfetti = getCookie("showConfetti")
-const showConfetti = true
+const showConfetti = getCookie("showConfetti")
 
 document.addEventListener("DOMContentLoaded", () => {
     (async () => {
