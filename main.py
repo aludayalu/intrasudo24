@@ -172,7 +172,7 @@ def auth_api():
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
             if args["otp"] == get_otp(args["email"]):
-                set("emails", args["email"], str(time.time()))
+                set("emails", args["email"], {"email":args["email"], "time":time.time()})
                 user = User()
                 user["email"] = args["email"]
                 user["name"] = args["name"]
