@@ -141,10 +141,7 @@ def auth_api():
     if is_valid_email(args["email"]):
         if get("emails", args["email"])["Ok"]:
             account = get("accounts", args["email"])["Value"]
-            if (
-                account["password"]
-                == hashlib.sha256(args["password"].encode()).hexdigest()
-            ):
+            if (account["password"]== hashlib.sha256(args["password"].encode()).hexdigest()):
                 return json.dumps({"success": True})
             else:
                 return json.dumps({"error": "Incorrect Password"})
