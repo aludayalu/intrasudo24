@@ -133,22 +133,21 @@
     display: block;
     margin-bottom: 10px;
 }
+
+.text-content {
+    width: 100%;
+}
 </style>
 <title>Styled Level Containers</title>
 </head>
 <body>
 
 <div style="display: flex;">
-    <div class="level-container wrapper">
-        <div>
-            <h2 id="level-id1">Level ID 1</h2>
-            <button class="edit-level-btn" onclick="openPopup(1)">Edit Level 1</button>
-        </div>
-    </div>
+    {levels}
     
     <div class="level-container wrapper">
         <div>
-            <h2 id="level-id1">Add A New Level</h2>
+            <h2>Add A New Level</h2>
             <button class="edit-level-btn" onclick="openPopup(-1)">Add Level</button>
         </div>
     </div>
@@ -156,10 +155,12 @@
 
 <div class="popup-container" id="popupContainer">
     <div class="popup-content" id="popupContent">
-        <h1>Level 0</h1>
+        <h1 id="level_id">Level 0</h1>
         <div class="wrapper" style="width: 100%;">
-            <div class="display-box" id="displayBox" style="height: 50vh; width: 40%; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; margin-right: 5vw;">
-                Display Box Content
+            <div class="display-box" style="height: 50vh; width: 40%; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; margin-right: 5vw;">
+                <div class="text-content" id="displayBox">
+                    
+                </div>
             </div>
             <div style="height: 50vh; width: 40%; border-radius: 10px;">
                 <textarea class="input-field" id="inputField" placeholder="Enter Markdown or URL" style="height: 50vh;"></textarea>
@@ -172,7 +173,7 @@
             <input type="text" id="answerField" class="input-field" placeholder="Answer" style="width: 20%;">
         </div>
         <div class="input-box">
-            <input type="text" id="answerField" class="input-field" placeholder="Level Id" style="width: 20%;">
+            <input type="text" id="levelId" class="input-field" placeholder="Level Id" style="width: 20%;">
         </div>
         <div class="button-container">
             <button class="submit-btn" onclick="submitForm()">Submit</button>
@@ -184,6 +185,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    var levelsData={levelsData}
     const converter = new showdown.Converter();
     const inputEl = document.getElementById('inputField');
     const displayEl = document.getElementById('displayBox');
@@ -191,26 +193,33 @@
     const popupContent = document.getElementById('popupContent');
     const sourceHintField = document.getElementById('sourceHintField');
     const answerField = document.getElementById('answerField');
+    const levelName = document.getElementById("level_id")
 
     function updateDisplay() {
         const inputValue = inputEl.value.trim();
         const html = converter.makeHtml(inputValue);
-        displayEl.innerHTML = `<div class="text-content">${html}</div>`;
+        displayEl.innerHTML = `${html}`;
     }
     
     inputEl.addEventListener('input', updateDisplay);
 
     function openPopup(levelNumber) {
         if (levelNumber==-1) {
-
-        } else {
-            const popupTitle = document.getElementById('level-id' + levelNumber).textContent;
-            const inputValue = document.getElementById('level-id' + levelNumber).nextElementSibling.textContent.trim();
-            popupContent.querySelector('.display-box').textContent = popupTitle
-            inputEl.value = inputValue
+            inputEl.value=""
+            displayEl.value=""
             sourceHintField.value = ''
             answerField.value = ''
             popupContainer.style.display = 'flex'
+            levelName.innerText="New Level"
+            document.getElementById("levelId").value=""
+            updateDisplay()
+        } else {
+            sourceHintField.value = levelsData[levelNumber]["sourcehint"]
+            answerField.value = levelsData[levelNumber]["answer"]
+            inputEl.value = levelsData[levelNumber]["markup"]
+            popupContainer.style.display = 'flex'
+            levelName.innerText="Level "+String(levelNumber)
+            document.getElementById("levelId").value=String(levelNumber)
             updateDisplay()
         }
     }
@@ -222,9 +231,10 @@
     function submitForm() {
         const sourceHint = sourceHintField.value.trim();
         const answer = answerField.value.trim();
-        console.log("Source Hint:", sourceHint);
-        console.log("Answer:", answer);
-        closePopup();
+        var levelId=document.getElementById("levelId").value
+        fetch("/set_level?source="+encodeURIComponent(sourceHint)+"&answer="+encodeURIComponent(answer)+"&markup="+encodeURIComponent(inputEl.value.trim())+"&level="+String(Number(levelId))).then((x)=>{
+            window.location="/admin"
+        })
     }
 </script>
 

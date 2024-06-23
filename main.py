@@ -208,11 +208,28 @@ def sendotp():
     else:
         return json.dumps({"error": "Invalid Email"})
 
+@app.get("/set_level")
+def set_level():
+    loggedIn = auth(dict(request.cookies))
+    if loggedIn["Ok"] and request.cookies.get("email") in admin:
+        args = dict(request.args)
+        if "source" not in args or "answer" not in args and "markup" not in args or "level" not in args:
+            return {"error":"Missing Fields"}
+        set("levels", args["level"], {"id":int(args["level"]), "answer":args["answer"], "markup":args["markup"], "sourcehint":args["source"]})
+        return {"level":"success"}
+    return ""
+
 @app.get("/admin")
 def admin_page():
     loggedIn = auth(dict(request.cookies))
-    if request.cookies.get("email") in admin:
-        return render("admin")
+    if request.cookies.get("email") in admin and loggedIn["Ok"]:
+        levels=[]
+        levels_db=get_All("levels")
+        levelsData=json.dumps([x for x in levels_db["Value"]])
+        for x in levels_db["Value"]:
+            levelid=x["id"]
+            levels.append(render("admin/level", locals()))
+        return render("admin/admin", locals())
     return ""
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
