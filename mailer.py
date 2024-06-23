@@ -6,16 +6,21 @@ import smtplib, ssl
 password=parse("variables.txt")["password"]
 
 def mail(to, subject, content):
-    message=MIMEMultipart("alternative")
-    message["Subject"]=subject
-    message["From"]="Exun Clan <exun@dpsrkp.net>"
-    message["to"]=to
-    
-    text = content
-    message.attach(MIMEText(text, "html"))
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login("exun@dpsrkp.net", password)
-        server.sendmail(
-            "exun@dpsrkp.net", to, message.as_string()
-    )
+    sender_email = "Exun Clan <exun@dpsrkp.net>"
+    sender_password = password
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = to
+    msg['Subject'] = subject
+    msg.attach(MIMEText(content, 'plain'))
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        text = msg.as_string()
+        server.sendmail(sender_email, to, text)
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+    finally:
+        server.quit()
