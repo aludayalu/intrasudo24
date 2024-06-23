@@ -1,7 +1,7 @@
 import uuid, json, flask, time, sys
 from flask import Flask, request, redirect
 from monster import render, init
-from database import get, set, get_All
+from database import get, set, get_All, delete
 from mailer import mail
 import re, hashlib, random
 from secrets_parser import parse
@@ -216,6 +216,17 @@ def set_level():
         if "source" not in args or "answer" not in args and "markup" not in args or "level" not in args:
             return {"error":"Missing Fields"}
         set("levels", args["level"], {"id":int(args["level"]), "answer":args["answer"], "markup":args["markup"], "sourcehint":args["source"]})
+        return {"level":"success"}
+    return ""
+
+@app.get("/delete_level")
+def delete_level():
+    loggedIn = auth(dict(request.cookies))
+    if loggedIn["Ok"] and request.cookies.get("email") in admin:
+        args = dict(request.args)
+        if "level" not in args:
+            return {"error":"Missing Fields"}
+        delete("levels", args["level"])
         return {"level":"success"}
     return ""
 
