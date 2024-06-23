@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="assets/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#131520" />
     <meta name="description" content="Website for Exun Intra Sudo 2024" />
@@ -13,29 +14,29 @@
 
     <title>Intra Sudo 2024</title>
 
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" />
     <link rel="stylesheet" href="main.css" />
     <script src="tailwind.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="relative w-screen h-screen bg-[var(--background)] pt-20">
         {header}
         <div class="px-20 flex flex-col justify-evenly text-center py-7 gap-5">
-        <h1 class="text-3xl font-bold">Leaderboard</h1>
-        <div style="width: 100%; text-align: left;" class="flex justify-between px-4 w-full py-[8px] text-base font-semibold text-white/[0.95]">
-            <div class="flex" style="width: 50%;">
-                <p style="width: 10%;">Rank</p>
-                <p>Name</p>
+            <h1 class="text-3xl font-bold">Leaderboard</h1>
+            <div style="width: 100%; text-align: left;"
+                class="flex justify-between px-4 w-full py-[8px] text-base font-semibold text-white/[0.95]">
+                <div class="flex" style="width: 50%;">
+                    <p style="width: 10%;">Rank</p>
+                    <p>Name</p>
+                </div>
+                Level
             </div>
-            Level
+            <div class="flex justify-between flex-col gap-3">{leaderboard}</div>
         </div>
-        <div class="flex justify-between flex-col gap-3">{leaderboard}</div>
-      </div>
-      {footer}
+        {footer}
     </div>
-  </body>
+</body>
+
 </html>
