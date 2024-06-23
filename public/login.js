@@ -221,3 +221,21 @@ inputs.forEach((input) => {
     input.addEventListener('focus', handleFocus)
     input.addEventListener('paste', handlePaste)
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
+            event.preventDefault();
+            navigator.clipboard.readText().then(function(pastedData) {
+                var processedData = pastedData.toUpperCase().replaceAll(" ", "").replaceAll("\t", "")
+                if (Number(processedData)!=NaN) {
+                    for (var i=0; i<processedData.length; i++) {
+                        try {
+                            inputs[i].value=processedData[i]
+                        } catch {}
+                    }
+                }
+            })
+        }
+    });
+});
