@@ -239,7 +239,7 @@
     function deleteLevel() {
         var levelId=document.getElementById("levelId").value
         fetch("/delete_level?level="+encodeURIComponent(levelId)).then(()=>{
-            window.location="/"
+            window.location="/admin"
         })
     }
 </script>
