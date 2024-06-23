@@ -18,20 +18,26 @@
     <link rel="stylesheet" href="play/play.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script defer src="play/confetti.js"></script>
 
 </head>
 
 
 <div class="pt-40 lg:pt-20">
+
+    <canvas id="canvas" class="max-w-screen max-h-screen absolute top-0 left-0" style="display: none;"></canvas>
+
     {header}
 
     <div class="wrapper" style="margin-top: 10vh; margin-bottom: 20vh;">
         <div class="bg-white/[0.03] border border-white/[0.15] rounded-xl" style="padding: 20px; width: 55%; height: 50vh;">
             <div style="height: 40vh;">
                 <h1 style="font-size: 40px; font-weight: 700;" class="vertical">Level {level}</h1>
-                <span id="markup" style="margin: 10px; font-size: 25px !important;" class="vertical">
-                    
-                </span>
+                <div style="height: 25vh;" class="wrapper">
+                    <span id="markup" style="font-size: 25px !important;" class="vertical">
+                        
+                    </span>
+                </div>
             </div>
             <div class="wrapper">
                 <div class="messageBox">
@@ -71,8 +77,8 @@
         if (answer!="") {
             input.value=""
             var response=await (await fetch("/submit?answer="+encodeURIComponent(answer))).json()
-            console.log(response)
             if (response["success"]===true) {
+                Draw()
                 notyf.success({ position: position, message: "Correct Answer" })
                 setTimeout(()=>{
                     window.location="/play"
