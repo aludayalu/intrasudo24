@@ -171,6 +171,9 @@
         <div class="input-box">
             <input type="text" id="answerField" class="input-field" placeholder="Answer" style="width: 20%;">
         </div>
+        <div class="input-box">
+            <input type="text" id="answerField" class="input-field" placeholder="Level Id" style="width: 20%;">
+        </div>
         <div class="button-container">
             <button class="submit-btn" onclick="submitForm()">Submit</button>
             <button class="cancel-btn" onclick="closePopup()">Cancel</button>
@@ -198,15 +201,18 @@
     inputEl.addEventListener('input', updateDisplay);
 
     function openPopup(levelNumber) {
-        const popupTitle = document.getElementById('level-id' + levelNumber).textContent;
-        const inputValue = document.getElementById('level-id' + levelNumber).nextElementSibling.textContent.trim();
-        
-        popupContent.querySelector('.display-box').textContent = popupTitle
-        inputEl.value = inputValue
-        sourceHintField.value = ''
-        answerField.value = ''
-        popupContainer.style.display = 'flex'
-        updateDisplay()
+        if (levelNumber==-1) {
+
+        } else {
+            const popupTitle = document.getElementById('level-id' + levelNumber).textContent;
+            const inputValue = document.getElementById('level-id' + levelNumber).nextElementSibling.textContent.trim();
+            popupContent.querySelector('.display-box').textContent = popupTitle
+            inputEl.value = inputValue
+            sourceHintField.value = ''
+            answerField.value = ''
+            popupContainer.style.display = 'flex'
+            updateDisplay()
+        }
     }
 
     function closePopup(){
