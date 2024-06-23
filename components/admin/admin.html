@@ -176,6 +176,7 @@
         </div>
         <div class="button-container">
             <button class="submit-btn" onclick="submitForm()">Submit</button>
+            <button class="cancel-btn" onclick="deleteLevel()">Delete</button>
             <button class="cancel-btn" onclick="closePopup()">Cancel</button>
         </div>
     </div>
@@ -233,6 +234,12 @@
         var levelId=document.getElementById("levelId").value
         fetch("/set_level?source="+encodeURIComponent(sourceHint)+"&answer="+encodeURIComponent(answer)+"&markup="+encodeURIComponent(inputEl.value.trim())+"&level="+String(Number(levelId))).then((x)=>{
             window.location="/admin"
+        })
+    }
+    function deleteLevel() {
+        var levelId=document.getElementById("levelId").value
+        fetch("/delete_level?level="+encodeURIComponent(levelId)).then(()=>{
+            window.location="/"
         })
     }
 </script>

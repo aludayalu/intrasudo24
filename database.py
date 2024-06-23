@@ -21,5 +21,5 @@ def get_All(table):
 def set(table, key, val):
     requests.get(database_uri+"/set?key="+quote(table+"/"+key)+"&val="+quote(json.dumps(val)))
 
-def delete(table, key, val):
+def delete(table, key):
     requests.get(database_uri+"/delete?key="+quote(table+"/"+key))
