@@ -1,256 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet"
+    <meta charset="UTF-8">
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131520" />
+    <meta name="description" content="Website for Exun Intra Sudo 2024" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Intra Sudo - Admin</title>
+
+    <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
-<link rel="stylesheet" href="main.css">
-<script src="tailwind.js"></script>
-<style>
-:root {
-    --primary: #1a9de6;
-    --foreground: #ffffff;
-    --background: #0d0e11;
-    --popup-background: rgba(0, 0, 0, 0.8);
-}
+    <link rel="stylesheet" href="main.css">
+    <script src="tailwind.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"
+        integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-.level-container {
-    width: 250px;
-    margin: 10px;
-    background-color: #1f2124;
-    color: var(--foreground);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    padding: 15px;
-    text-align: center;
-}
-
-.popup-container {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--popup-background);
-    z-index: 1000;
-    overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-.popup-content {
-    width: 90%;
-    margin: 0 auto;
-    background-color: var(--background);
-    color: var(--foreground);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: var(--foreground);
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.display-box, .text-box {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 20px;
-}
-
-.text-box {
-    background-color: var(--background);
-    color: var(--foreground);
-    padding-top: calc(50% - 10px);
-}
-
-.input-field {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    background-color: var(--background);
-    color: var(--foreground);
-    box-sizing: border-box;
-    outline: none;
-    resize: none;
-    overflow-y: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.input-box {
-    width: 100%;
-    text-align: left;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-}
-
-.submit-btn, .cancel-btn {
-    background-color: var(--primary);
-    color: var(--foreground);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
-}
-
-.submit-btn:hover, .cancel-btn:hover {
-    background-color: #147bb1;
-}
-
-.markdown-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.text-content {
-    width: 100%;
-}
-</style>
-<title>Styled Level Containers</title>
 </head>
+
 <body>
     <div class="relative w-screen h-screen bg-[var(--background)] pt-40 lg:pt-20">
         {header}
 
-        <div style="display: flex;">
+        <div class="flex flex-wrap">
             {levels}
-        
-            <div class="text-9xl level-container" onclick="openPopup(-1)" style="cursor: pointer;">
-                <h1>
-                    +
-                </h1>
+
+            <div class="text-5xl w-60 m-2.5 bg-white/[0.03] text-white rounded-lg p-1 text-center cursor-pointer"
+                onclick="openPopup(-1)">
+                <p>+</p>
             </div>
         </div>
 
-    </div>
+        <div id="popupContainer"
+            class="hidden fixed left-0 top-0 w-full h-full z-[1000] px-14 py-7 box-border bg-[rgba(13,14,17,0.75)] backdrop-blur">
 
+            <!-- box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); -->
 
-<div class="popup-container" id="popupContainer">
-    <div class="popup-content" id="popupContent">
-        <h1 id="level_id">Level 0</h1>
-        <div class="wrapper" style="width: 100%;">
-            <div class="display-box" style="height: 50vh; width: 40%; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; margin-right: 5vw;">
-                <div class="text-content" id="displayBox">
-                    
+            <div class="relative w-full h-full bg-white/[0.03] border border-white/[0.15] flex flex-col justify-between items-center gap-5 overflow-y-auto text-white rounded-lg p-2.5 pb-5"
+                id="popupContent">
+
+                <div class="w-full flex flex-col items-center gap-5">
+                    <p id="level_id" class="text-xl font-medium">Level 0</p>
+
+                    <div class="flex items-center gap-5 w-full">
+                        <div
+                            class="w-full h-[50vh] rounded-lg box-border overflow-hidden flex flex-col p-3 rounded-lg border border-white/[0.15] bg-[var(--background)]">
+                            <div class="w-full" id="displayBox"></div>
+                        </div>
+                        <div class="w-full h-[50vh] rounded-lg">
+                            <textarea
+                                class="w-full h-full p-2.5 text-base bg-[var(--background)] text-white border-box outline-none resize-none overflow-y-auto rounded-md mb-2.5 border border-white/[0.15] placeholder:text-white/[0.5]"
+                                id="inputField" placeholder="Enter Markdown or URL">
+                        </textarea>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex gap-3">
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Source Hint</p>
+                            <input type="text" id="sourceHintField"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Source Hint">
+                        </div>
+
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Answer</p>
+                            <input type="text" id="answerField"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Answer">
+                        </div>
+
+                        <div class="w-full flex flex-col gap-2">
+                            <p class="text-white/70 text-xs w-auto pl-1">Level Id</p>
+                            <input type="text" id="levelId"
+                                class="w-full p-2.5 text-base bg-white/[0.03] border border-white/[0.15] text-white border-box outline-none rounded-md placeholder:text-white/[0.5]"
+                                placeholder="Level Id">
+                        </div>
+                    </div>
                 </div>
+
+                <div class="flex justify-center w-1/2 gap-5">
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="submitForm()">Submit</button>
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="deleteLevel()">Delete</button>
+                    <button
+                        class="bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-md text-base cursor-pointer transition duration-300 hover:bg-[#147bb1] w-full"
+                        onclick="closePopup()">Cancel</button>
+                </div>
+
+                <button class="absolute top-3 right-3 text-white text-lg cursor-pointer" onclick="closePopup()">
+                    <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2L2 14" stroke="white" stroke-width="2" stroke-linecap="square"
+                            stroke-linejoin="round" />
+                        <path d="M2 2L14 14" stroke="white" stroke-width="2" stroke-linecap="square"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
             </div>
-            <div style="height: 50vh; width: 40%; border-radius: 10px;">
-                <textarea class="input-field" id="inputField" placeholder="Enter Markdown or URL" style="height: 50vh;"></textarea>
-            </div>
         </div>
-        <div class="input-box">
-            <input type="text" id="sourceHintField" class="input-field" placeholder="Source Hint" style="width: 20%;">
-        </div>
-        <div class="input-box">
-            <input type="text" id="answerField" class="input-field" placeholder="Answer" style="width: 20%;">
-        </div>
-        <div class="input-box">
-            <input type="text" id="levelId" class="input-field" placeholder="Level Id" style="width: 20%;">
-        </div>
-        <div class="button-container">
-            <button class="submit-btn" onclick="submitForm()">Submit</button>
-            <button class="cancel-btn" onclick="deleteLevel()">Delete</button>
-            <button class="cancel-btn" onclick="closePopup()">Cancel</button>
-        </div>
+
+        {footer}
     </div>
-    <button class="close-btn" onclick="closePopup()">Close</button>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    var levelsData={levelsData}
-    const converter = new showdown.Converter();
-    const inputEl = document.getElementById('inputField');
-    const displayEl = document.getElementById('displayBox');
-    const popupContainer = document.getElementById('popupContainer');
-    const popupContent = document.getElementById('popupContent');
-    const sourceHintField = document.getElementById('sourceHintField');
-    const answerField = document.getElementById('answerField');
-    const levelName = document.getElementById("level_id")
-
-    function updateDisplay() {
-        const inputValue = inputEl.value.trim();
-        const html = converter.makeHtml(inputValue);
-        displayEl.innerHTML = `${html}`;
-    }
-    
-    inputEl.addEventListener('input', updateDisplay);
-
-    function openPopup(levelNumber) {
-        if (levelNumber==-1) {
-            inputEl.value=""
-            displayEl.value=""
-            sourceHintField.value = ''
-            answerField.value = ''
-            popupContainer.style.display = 'flex'
-            levelName.innerText="New Level"
-            document.getElementById("levelId").value=""
-            updateDisplay()
-        } else {
-            sourceHintField.value = levelsData[levelNumber]["sourcehint"]
-            answerField.value = levelsData[levelNumber]["answer"]
-            inputEl.value = levelsData[levelNumber]["markup"]
-            popupContainer.style.display = 'flex'
-            levelName.innerText="Level "+String(levelNumber)
-            document.getElementById("levelId").value=String(levelNumber)
-            updateDisplay()
-        }
-    }
-
-    function closePopup(){
-        popupContainer.style.display = 'none';
-    }
-
-    function submitForm() {
-        const sourceHint = sourceHintField.value.trim();
-        const answer = answerField.value.trim();
-        var levelId=document.getElementById("levelId").value
-        fetch("/set_level?source="+encodeURIComponent(sourceHint)+"&answer="+encodeURIComponent(answer)+"&markup="+encodeURIComponent(inputEl.value.trim())+"&level="+String(Number(levelId))).then((x)=>{
-            window.location="/admin"
-        })
-    }
-    function deleteLevel() {
-        var levelId=document.getElementById("levelId").value
-        fetch("/delete_level?level="+encodeURIComponent(levelId)).then(()=>{
-            window.location="/admin"
-        })
-    }
-</script>
-
-{footer}
+    <script>
+        var levelsData = {levelsData}
+    </script>
+    <script defer src="admin.js"></script>
 
 </body>
+
 </html>

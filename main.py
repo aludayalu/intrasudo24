@@ -8,7 +8,7 @@ from secrets_parser import parse
 
 salt = parse("variables.txt")["salt"]
 
-admin=["r23025aarav@dpsrkp.net"]
+admin=["r23025aarav@dpsrkp.net", "r23733atharv@dpsrkp.net"]
 profanity=open("profanity.txt").read()
 
 app = Flask(__name__)
