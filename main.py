@@ -157,11 +157,9 @@ def auth_api():
             for x in args["name"].replace(" ", ""):
                 if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
                     return json.dumps({"error":"Name can only contain alphabets"})
-            if args["name"].count(" ")>1:
+            if args["name"].count(" ")>2:
                 return json.dumps("Name can only contain a first name and a last name")
             for x in args["name"].split(" "):
-                if len(x)!=2:
-                    return json.dumps({"error":"Name must contain first name and last name"})
                 if x in profanity:
                     return json.dumps({"error":"Profanity Detected"})
             if args["otp"] == get_otp(args["email"]):
