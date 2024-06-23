@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-
     <title>Intra Sudo 2024</title>
 
     <link rel="stylesheet"
@@ -38,5 +37,17 @@
         {footer}
     </div>
 </body>
+
+<script>
+    function dialog(id, selected, state) {
+        let modal = document.getElementById(`dialog_${selected}_${id}`);
+        if (state == "open") {
+            modal.showModal();
+        }
+        if (state == "close") {
+            modal.close();
+        }
+    }
+</script>
 
 </html>
