@@ -58,11 +58,10 @@ def home():
     header = render("components/header.html", locals())
     footer = render("components/footer.html", locals())
     confetti = render("components/confetti.html", locals())
-    # if loggedIn["Ok"]:
-    #     countdown = render("countdown", locals())
-    # else:
-    #     countdown = render("signinbutton", locals())
-    countdown = render("countdown", locals())
+    if loggedIn["Ok"]:
+        countdown = render("countdown", locals())
+    else:
+        countdown = render("signinbutton", locals())
     return render("components/index.html", locals())
 
 
