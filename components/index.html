@@ -13,7 +13,8 @@
 
     <title>Intra Sudo 2024</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
     <link rel="stylesheet" href="main.css">
     <script src="tailwind.js"></script>
 
@@ -29,34 +30,40 @@
         <div id="random" class="relative w-full">
             <div class="transition transition-all duration-300 w-full">
                 <div class="container w-full">
-                    <p class="title">Instructions</p>
+                    <h4 class="text-5xl font-bold mb-10 text-center">Instructions</h4>
                     <div class="wrapper">
-                        <div style="max-width: 800px;">
-                            <h4 class="subtitle">This is a platform created by <a href="https://exunclan.com/"
-                                    target="_blank" class="primary-link">Exun Clan</a>.</h4>
-                            <h4 class="subtitle">All students are recommended to read the <a
+                        <div class="max-w-[800px] text-base text-white/90 flex flex-col gap-2">
+                            <p>This is a platform created by <a href="https://exunclan.com/" target="_blank"
+                                    class="text-[var(--primary)]">Exun Clan</a>.</p>
+                            <p>All students are recommended to read the <a
                                     href="https://docs.google.com/document/d/1bpeRtE2YC09lHyKIuPUFJkxxp1gfuPPvRneCMJxPv7U/edit"
-                                    target="_blank" class="primary-link">Cryptic Hunt resources</a>.</h4>
-                            <div class="nabhay-rounded-lg">
-                                <h4 class="subtitle">The platform encompasses an Online Cryptic Treasure Hunt in which
+                                    target="_blank" class="text-[var(--primary)]">Cryptic Hunt resources</a>.</p>
+
+                            <div
+                                class="my-3 p-4 bg-[var(--background)] border border-white/50 rounded-lg w-full flex flex-col gap-2">
+                                <p>The platform encompasses an Online Cryptic Treasure Hunt in which
                                     students can make their way through cryptic levels created by us over the years.
-                                </h4>
-                                <h4 class="subtitle">At each level, the students will encounter a number of clues which
-                                    shall all, together, point to one answer. Each level has one correct answer.</h4>
-                                <h4 class="subtitle">Answers will always be lower-case, alphanumeric and will contain no
+                                </p>
+                                <p>At each level, the students will encounter a number of clues which
+                                    shall all, together, point to one answer. Each level has one correct answer.</p>
+                                <p>Answers will always be lower-case, alphanumeric and will contain no
                                     spaces. Special characters are allowed. For example, if the answer is Big Bang, you
-                                    would type it in as "bigbang".</h4>
-                                <h4 class="subtitle">All levels have to be done in a sequential order. No levels can be
-                                    skipped and the order of levels cannot be changed by own will.</h4>
-                                <h4 class="subtitle">Every clue in the question is important. If it wasn't important, it
-                                    wouldn't be there.</h4>
-                                <h4 class="subtitle">Beware of the spelling you enter, we do not auto-correct.</h4>
-                                <h4 class="subtitle">You can come back to this page any time by clicking on the
-                                    Sudocrypt logo in the top left corner of the page.</h4>
+                                    would type it in as "bigbang".</p>
+                                <p>All levels have to be done in a sequential order. No levels can be
+                                    skipped and the order of levels cannot be changed by own will.</p>
+                                <p>Every clue in the question is important. If it wasn't important, it
+                                    wouldn't be there.</p>
+                                <p>Beware of the spelling you enter, we do not auto-correct.</p>
+                                <p>You can come back to this page any time by clicking on the
+                                    Sudocrypt logo in the top left corner of the page.</p>
                             </div>
-                            <h4 class="subtitle">No aspect of the website can be shared with any student, teacher,
-                                parent or person alike from outside of Delhi Public School, R.K. Puram.</h4>
-                            <h4 class="subtitle">Failure to comply will result in disciplinary actions.</h4>
+
+                            <div class="w-full flex flex-col gap-2">
+                                <p>No aspect of the website can be shared with any student, teacher, parent or person
+                                    alike
+                                    from outside of Delhi Public School, R.K. Puram.</p>
+                                <p>Failure to comply will result in disciplinary actions.</p>
+                            </div>
                         </div>
                     </div>
                     {countdown}
@@ -67,4 +74,5 @@
     </div>
 
 </body>
+
 </html>
