@@ -16,7 +16,7 @@ def mail(to, subject, content):
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login(sender_email, sender_password)
+        server.login("exun@dpsrkp.net", sender_password)
         text = msg.as_string()
         server.sendmail(sender_email, to, text)
         print("Email sent successfully!")
