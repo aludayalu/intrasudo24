@@ -8,8 +8,8 @@ from secrets_parser import parse
 
 salt = parse("variables.txt")["salt"]
 
-admin=["r23025aarav@dpsrkp.net"]
-profanity=open("profanity.txt").read()
+admin = ["r23025aarav@dpsrkp.net"]
+profanity = open("profanity.txt").read()
 
 app = Flask(__name__)
 init(app)
@@ -74,20 +74,33 @@ def leaderboard():
         if request.cookies.get("email") in admin:
             logs_text = "Logs"
     fetchedData = get_All("leaderboard")
-    levels={}
+    levels = {}
     for x in fetchedData["Value"]:
         if x["level"] not in levels:
-            levels[x["level"]]=[x]
+            levels[x["level"]] = [x]
         else:
-            levels[x["level"]].append({"time":x["time"], "name":x["name"], "email":x["email"], "level":x["level"]})
-    leaderboard_data=[]
-    players_added=[]
+            levels[x["level"]].append(
+                {
+                    "time": x["time"],
+                    "name": x["name"],
+                    "email": x["email"],
+                    "level": x["level"],
+                }
+            )
+    leaderboard_data = []
+    players_added = []
     for level in sorted(levels)[::-1]:
-        level=levels[level]
+        level = levels[level]
         level.sort(key=lambda data: data["time"])
         for player in level:
             if player["email"] not in players_added:
-                leaderboard_data.append({"time":player["time"], "name":player["name"], "level":player["level"]})
+                leaderboard_data.append(
+                    {
+                        "time": player["time"],
+                        "name": player["name"],
+                        "level": player["level"],
+                    }
+                )
                 players_added.append(player["email"])
 
     leaderboard = []
@@ -152,35 +165,50 @@ def auth_api():
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
             args["name"].replace("\t", "").replace("  ", " ")
-            if len(args["name"].split(" "))>2:
-                return json.dumps({"error":"Name can only contain first name and last name"})
+            if len(args["name"].split(" ")) > 2:
+                return json.dumps(
+                    {"error": "Name can only contain first name and last name"}
+                )
             for x in args["name"].replace(" ", ""):
                 if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
-                    return json.dumps({"error":"Name can only contain alphabets"})
-            if args["name"].count(" ")>2:
+                    return json.dumps({"error": "Name can only contain alphabets"})
+            if args["name"].count(" ") > 2:
                 return json.dumps("Name can only contain a first name and a last name")
             for x in args["name"].split(" "):
                 if x in profanity:
-                    return json.dumps({"error":"Profanity Detected"})
+                    return json.dumps({"error": "Profanity Detected"})
             if args["otp"] == get_otp(args["email"]):
-                set("emails", args["email"], {"email":args["email"], "time":time.time()})
+                set(
+                    "emails",
+                    args["email"],
+                    {"email": args["email"], "time": time.time()},
+                )
                 user = User()
                 user["email"] = args["email"]
                 user["name"] = args["name"].title()
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
-                set("leaderboard", args["email"]+"_0", {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
+                set(
+                    "leaderboard",
+                    args["email"] + "_0",
+                    {
+                        "email": args["email"],
+                        "time": time.time(),
+                        "level": 0,
+                        "name": args["name"],
+                    },
+                )
                 return json.dumps({"success": True})
             else:
-                if args["method"]=="login":
-                    return json.dumps({"error":"Account does not exist"})
+                if args["method"] == "login":
+                    return json.dumps({"error": "Account does not exist"})
                 else:
                     return json.dumps({"error": "Wrong OTP"})
     return json.dumps({"error": "Invalid Email"})
 
 
 def get_otp(email):
-    digest = hashlib.sha256((email+salt).encode()).digest()
+    digest = hashlib.sha256((email + salt).encode()).digest()
     random.seed(int.from_bytes(digest, "big"))
     otp = str(random.randint(0, 999999))
     return "0" * (6 - len(otp)) + otp
@@ -192,13 +220,13 @@ def sendotp():
     if "email" not in args:
         return json.dumps({"error": "Missing Fields"})
     if is_valid_email(args["email"]):
-        otp=get_otp(args["email"])
-        digit1=otp[0]
-        digit2=otp[1]
-        digit3=otp[2]
-        digit4=otp[3]
-        digit5=otp[4]
-        digit6=otp[5]
+        otp = get_otp(args["email"])
+        digit1 = otp[0]
+        digit2 = otp[1]
+        digit3 = otp[2]
+        digit4 = otp[3]
+        digit5 = otp[4]
+        digit6 = otp[5]
         mail(
             args["email"],
             "Intra Sudo 2024 OTP Verification",
@@ -208,11 +236,13 @@ def sendotp():
     else:
         return json.dumps({"error": "Invalid Email"})
 
+
 @app.get("/admin")
 def admin_page():
     loggedIn = auth(dict(request.cookies))
     if request.cookies.get("email") in admin:
         return render("admin")
     return ""
+
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
