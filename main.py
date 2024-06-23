@@ -208,5 +208,11 @@ def sendotp():
     else:
         return json.dumps({"error": "Invalid Email"})
 
+@app.get("/admin")
+def admin_page():
+    loggedIn = auth(dict(request.cookies))
+    if request.cookies.get("email") in admin:
+        return render("admin")
+    return ""
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
