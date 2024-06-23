@@ -163,11 +163,13 @@ def auth_api():
         else:
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
+            if len(args["name"].split(" "))>2:
+                return json.dumps({"error":"Name can only contain first name and last name"})
             if args["otp"] == get_otp(args["email"]):
                 set("emails", args["email"], {"email":args["email"], "time":time.time()})
                 user = User()
                 user["email"] = args["email"]
-                user["name"] = args["name"]
+                user["name"] = args["name"].title()
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
                 set("leaderboard", args["email"]+"_0", {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
@@ -193,10 +195,17 @@ def sendotp():
     if "email" not in args:
         return json.dumps({"error": "Missing Fields"})
     if is_valid_email(args["email"]):
+        otp=get_otp(args["email"])
+        digit1=otp[0]
+        digit2=otp[1]
+        digit3=otp[2]
+        digit4=otp[3]
+        digit5=otp[4]
+        digit6=otp[5]
         mail(
             args["email"],
             "Intra Sudo 2024 OTP Verification",
-            "Here is your OTP<br>" + get_otp(args["email"]),
+            render("mail/otp", locals()),
         )
         return json.dumps({"otp": "success"})
     else:
