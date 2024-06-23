@@ -1,12 +1,14 @@
 import uuid, json, flask, time, sys
 from flask import Flask, request, redirect
 from monster import render, init
-from database import get, set
+from database import get, set, get_All
 from mailer import mail
 import re, hashlib, random
 from secrets_parser import parse
 
 salt = parse("variables.txt")["salt"]
+
+admin=["r23025aarav@dpsrkp.net"]
 
 app = Flask(__name__)
 init(app)
@@ -66,52 +68,42 @@ def home():
 
 @app.get("/leaderboard")
 def leaderboard():
-    fetchedData = [
-        {
-            "name": "AyonC",
-            "level": 1,
-            "logs": [
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-            ],
-        },
-        {"name": "Alu", "level": 10, "logs": []},
-    ]
-    fetchedData.sort(key=lambda data: data["level"], reverse=True)
+    loggedIn = auth(dict(request.cookies))
+    logs_text = ""
+    if loggedIn["Ok"]:
+        if request.cookies.get("email") in admin:
+            logs_text = "Logs"
+    fetchedData = get_All("leaderboard")
+    levels={}
+    for x in fetchedData["Value"]:
+        if x["level"] not in levels:
+            levels[x["level"]]=[x]
+        else:
+            levels[x["level"]].append({"time":x["time"], "name":x["name"], "email":x["email"], "level":x["level"]})
+    leaderboard_data=[]
+    players_added=[]
+    for level in sorted(levels)[::-1]:
+        level=levels[level]
+        level.sort(key=lambda data: data["time"])
+        for player in level:
+            if player["email"] not in players_added:
+                leaderboard_data.append({"time":player["time"], "name":player["name"], "level":player["level"]})
+                players_added.append(player["email"])
 
     leaderboard = []
 
-    for i in range(len(fetchedData)):
-        name = fetchedData[i]["name"]
-        level = fetchedData[i]["level"]
-        points = 1
+    for i in range(len(leaderboard_data)):
+        name = leaderboard_data[i]["name"]
+        level = leaderboard_data[i]["level"]
         logs = []
-        for log in fetchedData[i]["logs"]:
-            logs.append(render("components/leaderboard/modal.html", locals()))
+        if request.cookies.get("email") in admin and False:
+            for log in leaderboard_data[i]["logs"]:
+                logs.append(render("components/leaderboard/modal.html", locals()))
 
         rank = i + 1
 
         leaderboard.append(render("components/leaderboard/card.html", locals()))
 
-    loggedIn = auth(dict(request.cookies))
     if loggedIn["Ok"]:
         status = "Logout"
         status_url = "/logout"
@@ -173,12 +165,13 @@ def auth_api():
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
             if args["otp"] == get_otp(args["email"]):
-                set("emails", args["email"], str(time.time()))
+                set("emails", args["email"], {"email":args["email"], "time":time.time()})
                 user = User()
                 user["email"] = args["email"]
                 user["name"] = args["name"]
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
+                set("leaderboard", args["email"]+"_0", {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
                 return json.dumps({"success": True})
             else:
                 if args["method"]=="login":
@@ -189,7 +182,7 @@ def auth_api():
 
 
 def get_otp(email):
-    digest = hashlib.sha256(email.encode()).digest()
+    digest = hashlib.sha256((email+salt).encode()).digest()
     random.seed(int.from_bytes(digest, "big"))
     otp = str(random.randint(0, 999999))
     return "0" * (6 - len(otp)) + otp

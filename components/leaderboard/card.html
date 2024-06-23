@@ -5,7 +5,6 @@
     <p>{name}</p>
   </div>
   <div class="flex gap-5">
-    <p>{points}</p>
     <p class="w-5">{level}</p>
   </div>
 </div>
@@ -17,9 +16,9 @@
     <div class="flex flex-col gap-2 text-left">
       <h1 class="text-7xl">{name}</h1>
       <p class="text-white/[0.15]">
-        Rank: {rank} • Points: {points} • Level: {level} •
+        Rank: {rank} • Level: {level} •
         <button onclick="dialogopen_internal_{rank}()" class="outline-none underline">
-          Logs
+          {logs_text}
         </button>
       </p>
       <button onclick="dialogclose_main_{rank}()" class="outline-none bg-white text-black py-2 rounded-lg">
