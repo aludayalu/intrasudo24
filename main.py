@@ -166,6 +166,9 @@ def auth_api():
                 return json.dumps({"error": "Missing Fields", "args": args})
             if len(args["name"].split(" "))>2:
                 return json.dumps({"error":"Name can only contain first name and last name"})
+            for x in args["name"].replace(" ", ""):
+                if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                    return json.dumps({"error":"Name can only contain alphabets"})
             for x in args["name"].split(" "):
                 if len(x)<2:
                     return json.dumps({"error":"Name cannot contain words less than 2 characters"})
