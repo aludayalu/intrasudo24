@@ -8,6 +8,8 @@ from secrets_parser import parse
 
 salt = parse("variables.txt")["salt"]
 
+admin=["r23025aarav@dpsrkp.net"]
+
 app = Flask(__name__)
 init(app)
 
@@ -65,32 +67,16 @@ def home():
 
 @app.get("/leaderboard")
 def leaderboard():
+    loggedIn = auth(dict(request.cookies))
+    logs_text = ""
+    if loggedIn["Ok"]:
+        if request.cookies.get("email") in admin:
+            logs_text = "Logs"
     fetchedData = [
         {
             "name": "AyonC",
             "level": 1,
-            "logs": [
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-                "adsf",
-                "dosometing",
-            ],
+            "logs": [],
         },
         {"name": "Alu", "level": 10, "logs": []},
     ]
@@ -110,7 +96,6 @@ def leaderboard():
 
         leaderboard.append(render("components/leaderboard/card.html", locals()))
 
-    loggedIn = auth(dict(request.cookies))
     if loggedIn["Ok"]:
         status = "Logout"
         status_url = "/logout"
@@ -178,6 +163,7 @@ def auth_api():
                 user["name"] = args["name"]
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
+                set("leaderboard", args["email"]+"_0", {"time":time.time(), "level":0})
                 return json.dumps({"success": True})
             else:
                 if args["method"]=="login":
@@ -188,7 +174,7 @@ def auth_api():
 
 
 def get_otp(email):
-    digest = hashlib.sha256(email.encode()).digest()
+    digest = hashlib.sha256((email+salt).encode()).digest()
     random.seed(int.from_bytes(digest, "big"))
     otp = str(random.randint(0, 999999))
     return "0" * (6 - len(otp)) + otp
