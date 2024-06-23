@@ -12,7 +12,7 @@ def get(table, key):
     return response
 
 def get_All(table):
-    out=requests.get(database_uri+"/get?key="+quote(table+"/")).text
+    out=requests.get(database_uri+"/get_all?key="+quote(table+"/")).text
     response=json.loads(out)
     if response["Ok"]:
         response["Value"]=[json.loads(x) for x in response["Value"]]

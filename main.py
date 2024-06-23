@@ -1,7 +1,7 @@
 import uuid, json, flask, time, sys
 from flask import Flask, request, redirect
 from monster import render, init
-from database import get, set
+from database import get, set, get_All
 from mailer import mail
 import re, hashlib, random
 from secrets_parser import parse
@@ -72,14 +72,8 @@ def leaderboard():
     if loggedIn["Ok"]:
         if request.cookies.get("email") in admin:
             logs_text = "Logs"
-    fetchedData = [
-        {
-            "name": "AyonC",
-            "level": 1,
-            "logs": [],
-        },
-        {"name": "Alu", "level": 10, "logs": []},
-    ]
+    fetchedData = get_All("leaderboard")
+    print(fetchedData)
     fetchedData.sort(key=lambda data: data["level"], reverse=True)
 
     leaderboard = []
