@@ -164,14 +164,17 @@ def auth_api():
         else:
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
+            args["name"].replace("\t", "").replace("  ", " ")
             if len(args["name"].split(" "))>2:
                 return json.dumps({"error":"Name can only contain first name and last name"})
             for x in args["name"].replace(" ", ""):
                 if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
                     return json.dumps({"error":"Name can only contain alphabets"})
+            if args["name"].count(" ")>1:
+                return json.dumps("Name can only contain a first name and a last name")
             for x in args["name"].split(" "):
-                if len(x)<2:
-                    return json.dumps({"error":"Name cannot contain words less than 2 characters"})
+                if len(x)!=2:
+                    return json.dumps({"error":"Name must contain first name and last name"})
                 if x in profanity:
                     return json.dumps({"error":"Profanity Detected"})
             if args["otp"] == get_otp(args["email"]):
