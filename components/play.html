@@ -70,7 +70,7 @@
     var notyf = new Notyf();
     var position = { x: "center", y: "top" }
     const converter = new showdown.Converter();
-    document.getElementById("markup").innerHTML=converter.makeHtml("{markup}")
+    document.getElementById("markup").innerHTML=converter.makeHtml(`{markup}`)
     async function submit() {
         var input=document.getElementById("messageInput")
         var answer=input.value.trim()
