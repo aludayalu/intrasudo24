@@ -74,17 +74,31 @@ def leaderboard():
             logs_text = "Logs"
     fetchedData = get_All("leaderboard")
     print(fetchedData)
-    fetchedData.sort(key=lambda data: data["level"], reverse=True)
+    levels={}
+    for x in fetchedData["Value"]:
+        if x["level"] not in levels:
+            levels[x["level"]]=[x]
+        else:
+            levels[x["level"]].append({"time":x["time"], "name":x["name"]})
+    leaderboard_data=[]
+    players_added=[]
+    for level in sorted(levels)[::-1]:
+        level=levels[level]
+        level.sort(key=lambda data: data["time"])
+        level=level[::-1]
+        for player in level:
+            if player["email"] not in players_added:
+                leaderboard_data.append({"time":player["time"], "name":player["name"], "level":player["level"]})
 
     leaderboard = []
 
-    for i in range(len(fetchedData)):
-        name = fetchedData[i]["name"]
-        level = fetchedData[i]["level"]
-        points = 1
+    for i in range(len(leaderboard_data)):
+        name = leaderboard_data[i]["name"]
+        level = leaderboard_data[i]["level"]
         logs = []
-        for log in fetchedData[i]["logs"]:
-            logs.append(render("components/leaderboard/modal.html", locals()))
+        if request.cookies.get("email") in admin and False:
+            for log in leaderboard_data[i]["logs"]:
+                logs.append(render("components/leaderboard/modal.html", locals()))
 
         rank = i + 1
 
@@ -157,7 +171,7 @@ def auth_api():
                 user["name"] = args["name"]
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
-                set("leaderboard", args["email"]+"_0", {"time":time.time(), "level":0})
+                set("leaderboard", args["email"]+"_0", {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
                 return json.dumps({"success": True})
             else:
                 if args["method"]=="login":
