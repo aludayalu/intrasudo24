@@ -130,6 +130,7 @@ def auth_page():
         status = "Log In"
         status_url = "/auth"
     header = render("components/header.html", locals())
+    footer = render("components/footer.html", locals())
     return render("components/auth.html", locals())
 
 
@@ -237,7 +238,18 @@ def admin_page():
         for x in levels_db["Value"]:
             levelid=x["id"]
             levels.append(render("admin/level", locals()))
+        header = render("components/header.html", locals())
+        footer = render("components/footer.html", locals())
         return render("admin/admin", locals())
+    return ""
+
+@app.get("/play")
+def play():
+    loggedIn = auth(dict(request.cookies))
+    if request.cookies.get("email") in admin and loggedIn["Ok"]:
+        header = render("components/header.html", locals())
+        footer = render("components/footer.html", locals())
+        return render("play", locals())
     return ""
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))

@@ -6,6 +6,7 @@
 <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
 <link rel="stylesheet" href="main.css">
+<script src="tailwind.js"></script>
 <style>
 :root {
     --primary: #1a9de6;
@@ -141,16 +142,21 @@
 <title>Styled Level Containers</title>
 </head>
 <body>
+    <div class="relative w-screen h-screen bg-[var(--background)] pt-40 lg:pt-20">
+        {header}
 
-<div style="display: flex;">
-    {levels}
+        <div style="display: flex;">
+            {levels}
+        
+            <div class="text-9xl level-container" onclick="openPopup(-1)" style="cursor: pointer;">
+                <h1>
+                    +
+                </h1>
+            </div>
+        </div>
 
-    <div class="text-9xl level-container" onclick="openPopup(-1)" style="cursor: pointer;">
-        <h1>
-            +
-        </h1>
     </div>
-</div>
+
 
 <div class="popup-container" id="popupContainer">
     <div class="popup-content" id="popupContent">
@@ -243,6 +249,8 @@
         })
     }
 </script>
+
+{footer}
 
 </body>
 </html>
