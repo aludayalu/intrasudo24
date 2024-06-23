@@ -79,7 +79,7 @@ def leaderboard():
         if x["level"] not in levels:
             levels[x["level"]]=[x]
         else:
-            levels[x["level"]].append({"time":x["time"], "name":x["name"], "email":x["email"]})
+            levels[x["level"]].append({"time":x["time"], "name":x["name"], "email":x["email"], "level":x["level"]})
     leaderboard_data=[]
     players_added=[]
     for level in sorted(levels)[::-1]:
