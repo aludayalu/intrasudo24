@@ -14,12 +14,83 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
     <link rel="stylesheet" href="main.css">
     <script src="tailwind.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js" integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="play/play.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script defer src="play/confetti.js"></script>
 
 </head>
 
 
 <div class="pt-40 lg:pt-20">
+
+    <canvas id="canvas" class="max-w-screen max-h-screen absolute top-0 left-0" style="display: none;"></canvas>
+
     {header}
+
+    <div class="wrapper" style="margin-top: 10vh; margin-bottom: 20vh;">
+        <div class="bg-white/[0.03] border border-white/[0.15] rounded-xl" style="padding: 20px; width: 55%; height: 50vh;">
+            <div style="height: 40vh;">
+                <h1 style="font-size: 40px; font-weight: 700;" class="vertical">Level {level}</h1>
+                <div style="height: 25vh;" class="wrapper">
+                    <span id="markup" style="font-size: 25px !important;" class="vertical">
+                        
+                    </span>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="messageBox">
+                    <input required="" placeholder="Answer" type="text" id="messageInput" />
+                    <button id="sendButton" onclick="submit()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
+                            <path
+                                fill="none"
+                                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                            ></path>
+                            <path
+                                stroke-linejoin="round"
+                                stroke-linecap="round"
+                                stroke-width="33.67"
+                                stroke="#6c6c6c"
+                                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     {footer}
 </div>
+
+<script defer>
+    var notyf = new Notyf();
+    var position = { x: "center", y: "top" }
+    const converter = new showdown.Converter();
+    document.getElementById("markup").innerHTML=converter.makeHtml("{markup}")
+    async function submit() {
+        var input=document.getElementById("messageInput")
+        var answer=input.value.trim()
+        if (answer!="") {
+            input.value=""
+            var response=await (await fetch("/submit?answer="+encodeURIComponent(answer))).json()
+            if (response["success"]===true) {
+                Draw()
+                notyf.success({ position: position, message: "Correct Answer" })
+                setTimeout(()=>{
+                    window.location="/play"
+                }, 1000)
+            } else {
+                notyf.error({ position: position, message: "Incorrect Answer" })
+            }
+        }
+    }
+    document.addEventListener("keypress", (key)=>{
+        if (key.code=="Enter" && document.getElementById("messageInput").value.trim()!="") {
+            submit()
+        }
+    })
+</script>

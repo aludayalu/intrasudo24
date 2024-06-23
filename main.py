@@ -150,16 +150,17 @@ def auth_api():
             if "name" not in args or "otp" not in args:
                 return json.dumps({"error": "Missing Fields", "args": args})
             args["name"].replace("\t", "").replace("  ", " ")
-            if len(args["name"].split(" "))>2:
-                return json.dumps({"error":"Name can only contain first name and last name"})
-            for x in args["name"].replace(" ", ""):
-                if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
-                    return json.dumps({"error":"Name can only contain alphabets"})
-            if args["name"].count(" ")>2:
-                return json.dumps("Name can only contain a first name and a last name")
-            for x in args["name"].split(" "):
-                if x in profanity:
-                    return json.dumps({"error":"Profanity Detected"})
+            if args["method"]=="signup":
+                if len(args["name"].split(" "))>2:
+                    return json.dumps({"error":"Name can only contain first name and last name"})
+                for x in args["name"].replace(" ", ""):
+                    if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                        return json.dumps({"error":"Name can only contain alphabets"})
+                if args["name"].count(" ")>2:
+                    return json.dumps("Name can only contain a first name and a last name")
+                for x in args["name"].split(" "):
+                    if x in profanity:
+                        return json.dumps({"error":"Profanity Detected"})
             if args["otp"] == get_otp(args["email"]):
                 set("emails", args["email"], {"email":args["email"], "time":time.time()})
                 user = User()
@@ -167,7 +168,7 @@ def auth_api():
                 user["name"] = args["name"].title()
                 user["password"] = hashlib.sha256(args["password"].encode()).hexdigest()
                 set("accounts", args["email"], user)
-                set("leaderboard", args["email"]+"_0", {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
+                set("leaderboard", args["email"], {"email":args["email"] ,"time":time.time(), "level":0, "name":args["name"]})
                 return json.dumps({"success": True})
             else:
                 if args["method"]=="login":
@@ -261,7 +262,37 @@ def play():
             status_url = "/auth"
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
+        level=loggedIn["Value"]["level"]
+        level_Details=get("levels", str(level))
+        markup=level_Details["Value"]["markup"]
         return render("play", locals())
+    return ""
+
+@app.get("/submit")
+def submit():
+    loggedIn = auth(dict(request.cookies))
+    args=dict(request.args)
+    if "answer" not in args:
+        return {"error":"Missing Fields"}
+    if request.cookies.get("email") in admin and loggedIn["Ok"]:
+        if loggedIn["Ok"]:
+            status = "Logout"
+            status_url = "/logout"
+        else:
+            status = "Log In"
+            status_url = "/auth"
+        header = render("components/header.html", locals())
+        footer = render("components/footer.html", locals())
+        level=loggedIn["Value"]["level"]
+        level_Details=get("levels", str(level))
+        if level_Details["Value"]["answer"]==args["answer"]:
+            player=loggedIn["Value"]
+            player["level"]+=1
+            set("accounts", player["email"], player)
+            set("leaderboard", player["email"], {"email":player["email"] ,"time":time.time(), "level":player["level"], "name":player["name"]})
+            return {"success":True}
+        else:
+            return {"success":False}
     return ""
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
