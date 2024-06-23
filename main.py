@@ -73,7 +73,6 @@ def leaderboard():
         if request.cookies.get("email") in admin:
             logs_text = "Logs"
     fetchedData = get_All("leaderboard")
-    print(fetchedData)
     levels={}
     for x in fetchedData["Value"]:
         if x["level"] not in levels:
@@ -85,7 +84,6 @@ def leaderboard():
     for level in sorted(levels)[::-1]:
         level=levels[level]
         level.sort(key=lambda data: data["time"])
-        level=level[::-1]
         for player in level:
             if player["email"] not in players_added:
                 leaderboard_data.append({"time":player["time"], "name":player["name"], "level":player["level"]})
