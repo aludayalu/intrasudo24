@@ -9,6 +9,7 @@ from secrets_parser import parse
 salt = parse("variables.txt")["salt"]
 
 admin=["r23025aarav@dpsrkp.net"]
+profanity=open("profanity.txt").read()
 
 app = Flask(__name__)
 init(app)
@@ -165,6 +166,11 @@ def auth_api():
                 return json.dumps({"error": "Missing Fields", "args": args})
             if len(args["name"].split(" "))>2:
                 return json.dumps({"error":"Name can only contain first name and last name"})
+            for x in args["name"].split(" "):
+                if len(x)<2:
+                    return json.dumps({"error":"Name cannot contain words less than 2 characters"})
+                if x in profanity:
+                    return json.dumps({"error":"Profanity Detected"})
             if args["otp"] == get_otp(args["email"]):
                 set("emails", args["email"], {"email":args["email"], "time":time.time()})
                 user = User()
