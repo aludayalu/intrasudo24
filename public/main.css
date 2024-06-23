@@ -15,28 +15,24 @@ body {
 }
 
 html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-.scroll::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 10px;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-.scroll {
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
   border-radius: 10px;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-.scroll::-webkit-scrollbar {
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-.scroll::-webkit-scrollbar {
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -45,12 +41,6 @@ canvas {
   overflow-x: hidden;
   width: 100%;
   margin: 0;
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px;
 }
 
 a {
