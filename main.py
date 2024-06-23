@@ -66,7 +66,32 @@ def home():
 @app.get("/leaderboard")
 def leaderboard():
     fetchedData = [
-        {"name": "AyonC", "level": 1, "logs": ["adsf", "dosometing"]},
+        {
+            "name": "AyonC",
+            "level": 1,
+            "logs": [
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+                "adsf",
+                "dosometing",
+            ],
+        },
         {"name": "Alu", "level": 10, "logs": []},
     ]
     fetchedData.sort(key=lambda data: data["level"], reverse=True)
