@@ -34,6 +34,12 @@ def User():
         "password": "",
     }
 
+@app.errorhandler(404)
+def on_404(_):
+    backlink=get("backlinks", request.path.split("/", 1)[1])
+    if backlink["Ok"]:
+        return flask.Response(backlink["Value"])
+    return render("404", locals())
 
 def auth(cookies):
     if "email" in cookies:
