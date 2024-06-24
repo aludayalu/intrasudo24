@@ -57,7 +57,7 @@ document.getElementById("chatSendButton").addEventListener("click", async (x)=>{
     var text=document.getElementById("chatInput").value.trim().trim("\n")
     if (text!="") {
         document.getElementById("chatInput").value=""
-        var response=await fetch("/submit_message?content="+encodeURIComponent(text))
+        var response=await (await fetch("/submit_message?content="+encodeURIComponent(text))).json()
         if (response.error!=undefined) {
             notyf.error({ position: position, message: response.error })
         } else {
