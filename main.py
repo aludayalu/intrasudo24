@@ -314,6 +314,9 @@ def submit_message():
     if "content" not in args:
         return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
+        leads=get("status", "leads")
+        if not leads["Value"]:
+            return {"error":"Leads are unavailable at this moment"}
         last_Time=get("messagetimes", loggedIn["Value"]["email"])
         if not last_Time["Ok"]:
             last_Time["Value"]=0
