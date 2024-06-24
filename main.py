@@ -273,6 +273,7 @@ def play():
         chats=[]
         avatar="https://api.dicebear.com/9.x/big-smile/svg?seed="+quote(loggedIn["Value"]["name"])
         chat_btn = render("chat/chat", locals())
+        sourcehint=level_Details["Value"]["sourcehint"]
         return render("play", locals())
     return ""
 
