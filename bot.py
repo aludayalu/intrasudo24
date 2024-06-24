@@ -96,5 +96,9 @@ async def backlink(ctx, backlink, url):
     set("backlinks", backlink, url)
     await ctx.send("backlink /"+backlink+" set to `"+url+"`")
 
+@bot.command()
+async def logs(ctx, email):
+    await ctx.send("```"+get("logs", email)["Value"]+"```")
+
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)

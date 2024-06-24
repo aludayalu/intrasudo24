@@ -8,6 +8,7 @@ from secrets_parser import parse
 import hashlib
 import requests
 from urllib.parse import quote
+from datetime import datetime, timedelta
 
 salt = parse("variables.txt")["salt"]
 botapi=parse("variables.txt")["botapi"]
@@ -328,6 +329,12 @@ def submit_message():
     else:
         return {"error":"Not LoggedIn"}
 
+def unix_to_ist(unix_time):
+    dt = datetime.fromtimestamp(unix_time)
+    ist_offset = timedelta(hours=5, minutes=30)
+    ist_time = dt + ist_offset
+    return ist_time.strftime('%Y-%m-%d %H:%M:%S')
+
 @app.get("/submit")
 def submit():
     loggedIn = auth(dict(request.cookies))
@@ -350,9 +357,9 @@ def submit():
         player=loggedIn["Value"]
         playerLogs=get("logs", player["email"])
         if not playerLogs["Ok"]:
-            set("logs", player["email"], args["answer"]+"\n")
+            set("logs", player["email"], str(unix_to_ist(int(time.time())))+" : "+args["answer"]+"\n")
         else:
-            newLog=playerLogs["Value"]+args["answer"]+"\n"
+            newLog=playerLogs["Value"]+str(unix_to_ist(int(time.time())))+" : "+args["answer"]+"\n"
             if len(newLog)>10240:
                 newLog=newLog[len(newLog)-10240:]
             set("logs", player["email"], newLog)
