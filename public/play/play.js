@@ -34,3 +34,9 @@ document.addEventListener("keypress", (key) => {
 document.querySelectorAll("#markup a").forEach((x)=>{
     x.target="_blank"
 })
+
+sendButton.addEventListener("click", ()=>{
+    if (document.getElementById("messageInput").value.trim() != "") {
+        submit()
+    }
+})
