@@ -2,6 +2,21 @@
     #chatControls>div:hover>svg {
         opacity: 1;
     }
+    #ChatbottomDiv:has(#chatInput[disabled]) > textarea{
+        cursor: not-allowed;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > div,
+    #ChatbottomDiv:has(#chatInput[disabled]) > button{
+        filter: blur(2px);
+        cursor: not-allowed;
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > button:hover{
+        color: rgba(255, 255, 255, 0.4);
+    }
+    #ChatbottomDiv:has(#chatInput[disabled]) > p{
+        display: block;
+        cursor: not-allowed;
+    }
 </style>
 
 
@@ -70,12 +85,12 @@
         <div id="messagecontainer" class="h-full w-full flex flex-col gap-4 overflow-y-scroll no-scrollbar pb-1 pl-1.5">
             {chats}
         </div>
-        <div class="w-full relative pl-1.5 flex">
+        <div class="w-full relative pl-1.5 flex" id="ChatbottomDiv">
             <textarea type="text" 
                 placeholder="Enter a message" 
                 rows="4"
                 id="chatInput"
-                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none no-scrollbar"></textarea>
+                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none no-scrollbar disabled:blur-[2px]"></textarea>
 
             <button id="chatSendButton"
                 class="flex justify-center items-center cursor-pointer transition duration-300 text-white/[0.4] hover:text-white absolute right-2 bottom-8 bg-[var(--background)] pl-1 py-1 box-border">
@@ -91,6 +106,8 @@
                 <p>/</p>
                 <p>512</p>
             </div>
+
+            <p class="transition hidden absolute top-[calc(50%-10px)] translateY-[-50%] w-full text-center text-white font-semibold text-base">Leads are currently unavailable</p>
         </div>
     </div>
 </div>
