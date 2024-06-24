@@ -89,6 +89,7 @@ Commands:
 /info : help page
 /backlink : to set a backlink, example: /backlink abcd https://intra.sudocrypt.com/logo-blue.png
 /logs : to get the logs of a player, example: /logs exun@dpsrkp.net
+/leads : to toggle leads, example: /leads
 ```
 """)
 
