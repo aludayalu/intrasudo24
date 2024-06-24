@@ -60,6 +60,10 @@ async def on_message(message:discord.Message):
     if message.author==bot:
         return
     await bot.process_commands(message)
+    if message.channel.category.name=="hints":
+        level=message.channel.name.split("-")[1]
+        set("hints/"+level, str(message.id), message.content)
+        return
     if message.reference!=None:
         id=message.reference.message_id
         database_message=get("discord_messages", str(id))
@@ -68,6 +72,9 @@ async def on_message(message:discord.Message):
 
 @bot.event
 async def on_message_delete(message:discord.Message):
+    if message.channel.category.name=="hints":
+        level=message.channel.name.split("-")[1]
+        delete("hints/"+level, str(message.id))
     if message.reference!=None:
         id=message.reference.message_id
         database_message=get("discord_messages", str(id))
