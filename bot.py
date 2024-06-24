@@ -90,6 +90,7 @@ Commands:
 /backlink : to set a backlink, example: /backlink abcd https://intra.sudocrypt.com/logo-blue.png
 /logs : to get the logs of a player, example: /logs exun@dpsrkp.net
 /leads : to toggle leads, example: /leads
+/disqualify : to toggle disqualification of a player, example: /disqualify {email}
 ```
 """)
 
@@ -112,6 +113,17 @@ async def leads(ctx):
     else:
         message="on"
     await ctx.send("Leads have been turned "+message)
+
+@bot.command()
+async def disqualify(ctx, email):
+    disqualified=get("disqualified", email)["Value"]
+    set("disqualified", email, not disqualified)
+    message=""
+    if disqualified:
+        message="disqualified"
+    else:
+        message="allowed to play"
+    await ctx.send(email+" has been "+message)
 
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)
