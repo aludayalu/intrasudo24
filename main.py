@@ -344,6 +344,8 @@ def submit():
             player["level"]+=1
             set("accounts", player["email"], player)
             set("leaderboard", player["email"], {"email":player["email"] ,"time":time.time(), "level":player["level"], "name":player["name"]})
+            for x in get_All("messages/"+player["email"])["Value"]:
+                delete("messages/"+player["email"], x["id"])
             return {"success":True}
         else:
             return {"success":False}
