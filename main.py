@@ -318,6 +318,13 @@ def submit_message():
         if not leads["Value"]:
             return {"error":"Leads are unavailable at this moment"}
         last_Time=get("messagetimes", loggedIn["Value"]["email"])
+        disqualified=get("disqualified", loggedIn["Value"]["email"])
+        if not disqualified["Ok"]:
+            disqualified["Value"]=False
+            set("disqualified", loggedIn["Value"]["email"], False)
+        else:
+            if disqualified["Value"]:
+                return {"error":"You have been disqualified. Kindly contact us at exun@dpsrkp.net for clarification."}
         if not last_Time["Ok"]:
             last_Time["Value"]=0
         if time.time()-last_Time["Value"]<4:
@@ -353,7 +360,7 @@ def submit():
             set("disqualified", loggedIn["Value"]["email"], False)
         else:
             if disqualified["Value"]:
-                return {"error":"You have been disqualified"}
+                return {"error":"You have been disqualified. Kindly contact us at exun@dpsrkp.net for clarification."}
         if not last_Time["Ok"]:
             last_Time["Value"]=0
         if time.time()-last_Time["Value"]<=1:
