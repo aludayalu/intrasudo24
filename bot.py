@@ -101,5 +101,16 @@ async def backlink(ctx, backlink, url):
 async def logs(ctx, email):
     await ctx.send("```"+get("logs", email)["Value"]+"```")
 
+@bot.command()
+async def leads(ctx):
+    current_Leads=get("status", "leads")["Value"]
+    set("status", "leads", not current_Leads)
+    message=""
+    if current_Leads:
+        message="off"
+    else:
+        message="on"
+    await ctx.send("Leads have been turned "+message)
+
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)
