@@ -347,8 +347,16 @@ def submit():
         footer = render("components/footer.html", locals())
         level=loggedIn["Value"]["level"]
         level_Details=get("levels", str(level))
+        player=loggedIn["Value"]
+        playerLogs=get("logs", player["email"])
+        if not playerLogs["Ok"]:
+            set("logs", player["email"], args["answer"]+"\n")
+        else:
+            newLog=playerLogs["Value"]+args["answer"]+"\n"
+            if len(newLog)>10240:
+                newLog=newLog[len(newLog)-10240:]
+            set("logs", player["email"], newLog)
         if level_Details["Value"]["answer"]==args["answer"]:
-            player=loggedIn["Value"]
             player["level"]+=1
             set("accounts", player["email"], player)
             set("leaderboard", player["email"], {"email":player["email"] ,"time":time.time(), "level":player["level"], "name":player["name"]})
