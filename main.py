@@ -265,7 +265,7 @@ def admin_page():
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
         return render("admin/admin", locals())
-    return ""
+    return render("404")
 
 @app.get("/play")
 def play():
