@@ -24,8 +24,13 @@ async function submit() {
         }
     }
 }
+
 document.addEventListener("keypress", (key) => {
     if (key.code == "Enter" && document.getElementById("messageInput").value.trim() != "") {
         submit()
     }
+})
+
+document.querySelectorAll("#markup a").forEach((x)=>{
+    x.target="_blank"
 })
