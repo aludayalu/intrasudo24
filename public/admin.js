@@ -11,6 +11,9 @@ function updateDisplay() {
     const inputValue = inputEl.value.trim();
     const html = converter.makeHtml(inputValue);
     displayEl.innerHTML = `${html}`;
+    document.querySelectorAll("#displayBox a").forEach((x)=>{
+        x.target="_blank"
+    })
 }
 
 inputEl.addEventListener('input', updateDisplay);
@@ -48,6 +51,7 @@ function submitForm() {
         window.location = "/admin"
     })
 }
+
 function deleteLevel() {
     var levelId = document.getElementById("levelId").value
     fetch("/delete_level?level=" + encodeURIComponent(levelId)).then(() => {

@@ -148,9 +148,13 @@ async function checkChecksum() {
         chatSendButton.disabled=true
     }
     checksum.setValue(request["checksum"])
+    if (first) {
+        checksum.onChange()
+    }
 }
 
-checkChecksum()
-first=false
+checkChecksum().then(()=>{
+    first=false
+})
 
 setInterval(checkChecksum, 5000)
