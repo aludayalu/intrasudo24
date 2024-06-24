@@ -25,10 +25,26 @@ signal.onChange = () => {
         }, 200)
     }
     else {
-
+        chatToggleBtn.style.opacity = 1
+        chatToggleBtn.style.transform = "scale(1)"
+        setTimeout(() => {
+            chatPopup.style.opacity = 0
+            chatPopup.style.transform = "translateY(0px)"
+            chatPopup.style.display = "none"
+            chatToggleBtn.style.display = "block"
+        }, 200);
     }
 }
 
-chatToggleBtn.addEventListener("click", () => {
-    signal.setValue(signal.Value() === "close" ? "open" : "close")
+document.addEventListener("click", (e)=>{
+    console.log("hi")
+    if (document.getElementById("chatPopup").contains(e.target)) {
+        console.log("inside")
+    } else {
+        if (document.getElementById("btn-message").contains(e.target)) {
+            signal.setValue("open")
+        } else {
+            signal.setValue("close")
+        }
+    }
 })

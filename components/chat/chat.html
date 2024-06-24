@@ -1,13 +1,30 @@
 <div id="chatToggleBtn"
-    class="fixed bottom-8 right-8 w-[60px] h-[60px] rounded-full bg-[var(--primary)] flex justify-center items-center p-3.5 hover:scale-[1.2] transition duration-200 cursor-pointer transition scale-100 duration-300">
+    class="fixed bottom-8 right-8 cursor-pointer">
 
-    <svg class="flex-1" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-            d="M1 9C1 4.58172 4.58172 1 9 1V1C13.4183 1 17 4.58172 17 9V14.0909C17 14.9375 17 15.3608 16.8739 15.6989C16.6712 16.2425 16.2425 16.6712 15.6989 16.8739C15.3608 17 14.9375 17 14.0909 17H9C4.58172 17 1 13.4183 1 9V9Z"
-            stroke="white" stroke-width="2" />
-        <path d="M6 8L12 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M9 12H12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+    <button id="btn-message" class="button-message">
+        <div class="content-avatar">
+          <div class="status-user"></div>
+          <div class="avatar">
+            <svg
+              class="user-img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12,12.5c-3.04,0-5.5,1.73-5.5,3.5s2.46,3.5,5.5,3.5,5.5-1.73,5.5-3.5-2.46-3.5-5.5-3.5Zm0-.5c1.66,0,3-1.34,3-3s-1.34-3-3-3-3,1.34-3,3,1.34,3,3,3Z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div class="notice-content">
+          <div class="username">Exun Clan</div>
+          <div class="lable-message">
+            Leads<span class="number-message">3</span>
+          </div>
+          <div class="user-id">exun@dpsrkp.net</div>
+        </div>
+      </button>
+      
 </div>
 
 <div id="chatPopup"

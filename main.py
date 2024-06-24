@@ -295,4 +295,22 @@ def submit():
             return {"success":False}
     return ""
 
+@app.get("/chat")
+def chat():
+    loggedIn = auth(dict(request.cookies))
+    if loggedIn["Ok"] and request.cookies.get("email") in admin:
+        if loggedIn["Ok"]:
+            status = "Logout"
+            status_url = "/logout"
+        else:
+            status = "Log In"
+            status_url = "/auth"
+        header = render("components/header.html", locals())
+        footer = render("components/footer.html", locals())
+        messageme = render("chat/messageme", locals())
+        messageyou = render("chat/messageyou", locals())
+        chat_btn = render("chat/chat", locals())
+        return render("chat", locals())
+    return ""
+
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
