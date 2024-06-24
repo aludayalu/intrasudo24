@@ -5,10 +5,14 @@
     #ChatbottomDiv:has(#chatInput[disabled]) > textarea{
         cursor: not-allowed;
     }
+    #ChatbottomDiv:has(#chatInput[disabled]) > textarea::placeholder{
+        opacity: 0;
+    }
     #ChatbottomDiv:has(#chatInput[disabled]) > div,
     #ChatbottomDiv:has(#chatInput[disabled]) > button{
         filter: blur(2px);
         cursor: not-allowed;
+        display: none;
     }
     #ChatbottomDiv:has(#chatInput[disabled]) > button:hover{
         color: rgba(255, 255, 255, 0.4);
@@ -107,7 +111,7 @@
                 <p>512</p>
             </div>
 
-            <p class="transition hidden absolute top-[calc(50%-10px)] translateY-[-50%] w-full text-center text-white font-semibold text-base">Leads are currently unavailable</p>
+            <p class="transition hidden absolute top-[calc(50%-14px)] translateY-[-50%] w-full text-center text-white font-semibold text-base">Leads are currently unavailable</p>
         </div>
     </div>
 </div>
