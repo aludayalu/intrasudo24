@@ -1,13 +1,16 @@
-import discord # type: ignore
-from discord.ext import commands # type: ignore
+import discord
+from discord.ext import commands
 import time
 from secrets_parser import parse
+from flask import Flask, request
+import threading
+from database import get, set, delete
+import asyncio
 
-TOKEN = parse("variables.txt")["discord"]
+app=Flask(__name__)
+
+bot_Token = parse("variables.txt")["discord"]
 GUILD_ID = parse("variables.txt")["guild_id"]
-
-channel_id = {}
-replies = {}
 
 
 intents = discord.Intents.default()
@@ -22,56 +25,55 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 async def on_ready():
     print("Bot Started")
 
-async def send_embed(participant_email, participant_name, query, level):
+async def create_channels(level):
+    if get("level_channels", level)["Ok"]:
+        return
     guild = bot.get_guild(int(GUILD_ID))
-    if not guild:
-        print(f"Guild with ID {GUILD_ID} not found.")
-        return
+    levels_category = None
+    hints_category = None
+    for x in guild.categories:
+        if x.name == "levels":
+            levels_category = x
+        if x.name == "hints":
+            hints_category = x
+    level_channel=await guild.create_text_channel(f"leads-{level}", category=levels_category)
+    hint_channel=await guild.create_text_channel(f"hints-{level}", category=hints_category)
+    set("level_channels", level, {"level":level_channel.id, "hint":hint_channel.id})
 
-    if level not in channel_id:
-        channel = await guild.create_text_channel(name=f'Level {level}')
-        channel_id[level] = channel.id
-    else:
-        channel = bot.get_channel(channel_id[level])
- 
-    embed = discord.Embed(title="Participant Info", color=discord.Color.blue())
-    embed.add_field(name="Email", value=participant_email, inline=False)
-    embed.add_field(name="Name", value=participant_name, inline=False)
-    embed.add_field(name="Query", value=query, inline=False)
-    embed.add_field(name="Level", value=level, inline=False)
-    
-    msg = await channel.send(embed=embed)
-    replies[msg.id] = [participant_email, participant_name, query, level]
+@app.get("/create_level")
+async def create_channel():
+    asyncio.run_coroutine_threadsafe(create_channels(request.args["level"]), bot.loop)
+    return {"succes":"created channels"}
 
-@bot.event
-async def on_message(message):
+async def send_message(level, name, email, content):
+    channel=bot.get_channel(get("level_channels", level)["Value"]["level"])
+    message=await channel.send(f"`{name} {email} : {content}`\n")
+    set("discord_messages", str(message.id), {"email":email})
 
-    if message.author == bot.user:
-        return
-
-    await bot.process_commands(message)
-
-    if message.reference and message.reference.message_id in replies:
-        temp_list = replies[message.reference.message_id]
-        temp_list.extend([message.content, message.id])
-        replies[message.reference.message_id] = temp_list
-        print(replies)
+@app.get("/send_message")
+async def send_message_api():
+    asyncio.run_coroutine_threadsafe(send_message(request.args["level"], request.args["name"], request.args["email"], request.args["content"]), bot.loop)
+    return "hi"
 
 @bot.event
-async def on_message_delete(message):
-    print('test')
-    for keys,values in replies.items():
-       if message.id == values[5]:
-            temp_list = replies[keys]
-            print(temp_list)
-            del temp_list[-2:]
-            print(temp_list)
-            replies[keys] = temp_list
-            print(replies)
+async def on_message(message:discord.Message):
+    if message.author==bot:
+        return
+    if message.reference!=None:
+        id=message.reference.message_id
+        database_message=get("discord_messages", str(id))
+        if database_message["Ok"]:
+            set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content})
+            await message.channel.send("hello", reference=message)
 
-@bot.command()
-async def info(ctx, participant_email, participant_name, query, level):
-    await send_embed(participant_email, participant_name, query, level)
+@bot.event
+async def on_message_delete(message:discord.Message):
+    if message.reference!=None:
+        id=message.reference.message_id
+        database_message=get("discord_messages", str(id))
+        if database_message["Ok"]:
+            delete("messages/"+database_message["Value"]["email"], str(message.id))
 
 # Run the bot with the specified token
-bot.run(TOKEN)
+threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
+app.run(host="0.0.0.0", port=5555)
