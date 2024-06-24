@@ -347,6 +347,13 @@ def submit():
         return {"error":"Missing Fields"}
     if request.cookies.get("email") in admin and loggedIn["Ok"]:
         last_Time=get("submittimeout", loggedIn["Value"]["email"])
+        disqualified=get("disqualified", loggedIn["Value"]["email"])
+        if not disqualified["Ok"]:
+            disqualified["Value"]=False
+            set("disqualified", loggedIn["Value"]["email"], False)
+        else:
+            if disqualified["Value"]:
+                return {"error":"You have been disqualified"}
         if not last_Time["Ok"]:
             last_Time["Value"]=0
         if time.time()-last_Time["Value"]<=1:
