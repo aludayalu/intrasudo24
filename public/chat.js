@@ -97,6 +97,7 @@ checksum.onChange=async ()=>{
 }
 
 checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
+checksum.onChange()
 
 setInterval(async ()=>{
     checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
