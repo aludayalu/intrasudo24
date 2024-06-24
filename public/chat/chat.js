@@ -143,7 +143,7 @@ async function checkChecksum() {
         chatInput.disabled=false
         chatSendButton.disabled=false
     } else {
-        document.getElementById("leads").style.backgroundColor="rgb(248, 114. 114)"
+        document.getElementById("leads").style.backgroundColor="rgb(248, 114, 114)"
         chatInput.disabled=true
         chatSendButton.disabled=true
     }
