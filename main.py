@@ -291,7 +291,8 @@ def chat_checksum():
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
         hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
-        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest()}
+        leads=get("status", "leads")
+        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest(), "leads":leads["Value"]}
     else:
         return {"error":"Not LoggedIn"}
 
