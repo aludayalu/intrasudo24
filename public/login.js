@@ -224,7 +224,7 @@ inputs.forEach((input) => {
 
 document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(event) {
-        if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'v' && signal_otp.Value()=="otpscreen") {
             event.preventDefault();
             navigator.clipboard.readText().then(function(pastedData) {
                 var processedData = pastedData.toUpperCase().replaceAll(" ", "").replaceAll("\t", "")
