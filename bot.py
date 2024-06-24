@@ -59,6 +59,7 @@ async def send_message_api():
 async def on_message(message:discord.Message):
     if message.author==bot:
         return
+    await bot.process_commands(message)
     if message.reference!=None:
         id=message.reference.message_id
         database_message=get("discord_messages", str(id))
@@ -72,6 +73,21 @@ async def on_message_delete(message:discord.Message):
         database_message=get("discord_messages", str(id))
         if database_message["Ok"]:
             delete("messages/"+database_message["Value"]["email"], str(message.id))
+
+@bot.command()
+async def info(ctx):
+    await ctx.send("""
+Commands:
+```
+/info : help page
+/backlink : to set a backlink, example: /backlink abcd https://intra.sudocrypt.com/logo-blue.png
+```
+""")
+
+@bot.command()
+async def backlink(ctx, backlink, url):
+    set("backlinks", backlink, url)
+    await ctx.send("backlink /"+backlink+" set to `"+url+"`")
 
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)
