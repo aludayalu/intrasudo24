@@ -40,9 +40,10 @@
 </body>
 
 <script>
-    function dialog(id, selected, state) {
+    function dialog(id, selected, state, name) {
         let modal = document.getElementById(`dialog_${selected}_${id}`);
         if (state == "open") {
+            document.getElementById("dialog_pfp_"+String(id)).src="https://api.dicebear.com/9.x/big-smile/svg?seed="+name
             modal.showModal();
         }
         if (state == "close") {
