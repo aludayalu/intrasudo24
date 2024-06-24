@@ -71,18 +71,26 @@
             {chats}
         </div>
         <div class="w-full relative">
-            <textarea type="text" placeholder="Enter a message" rows="4"
-                id = "chatInput"
-                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none"></textarea>
+            <textarea type="text" 
+                placeholder="Enter a message" 
+                rows="4"
+                id="chatInput"
+                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none no-scrollbar"></textarea>
 
             <button id="chatSendButton"
-                class="w-5 h-5 flex justify-center items-center cursor-pointer transition duration-300 text-white/[0.4] hover:text-white absolute right-2 bottom-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663" class="h-full">
+                class="flex justify-center items-center cursor-pointer transition duration-300 text-white/[0.4] hover:text-white absolute right-2 bottom-8 bg-[var(--background)] pl-1 py-1 box-border">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663" class="h-full" width="20" height="20">
                     <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="currentColor"
                         d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
                     </path>
                 </svg>
             </button>
+
+            <div id="chatMsgCharLimit" class="flex gap-1 absolute right-2 bottom-3 text-[9px] text-white/70 bg-[var(--background)] pl-1 py-1 box-border">
+                <p class="w-[17px] text-right" id="chatMsgLen">22</p>
+                <p>/</p>
+                <p>512</p>
+            </div>
         </div>
     </div>
 </div>
@@ -115,4 +123,4 @@ var messageYou=`
 `
 </script>
 
-<script defer type="module" src="chat.js"></script>
+<script defer type="module" src="chat/chat.js"></script>

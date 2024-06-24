@@ -67,6 +67,19 @@ document.getElementById("chatSendButton").addEventListener("click", async (x)=>{
     }
 })
 
+document.getElementById("chatInput").oninput = (e) => {
+    if(e.target.value.trim().length >= 512){
+        chatInput.value = e.target.value.trim().slice(0, 512)
+    }
+    if(e.target.value.trim().length >= 400){
+        document.getElementById("chatMsgCharLimit").style.color = "#f87171"
+    } else{
+        document.getElementById("chatMsgCharLimit").style.color = "#fff"
+    }
+
+    document.getElementById("chatMsgLen").innerText = e.target.value.trim().length
+}
+
 function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
