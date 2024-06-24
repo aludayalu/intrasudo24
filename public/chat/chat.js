@@ -8,6 +8,8 @@ var position = { x: "center", y: "top" }
 
 const chatSignal = Signal("chatOpenState", "close")
 
+var leads=false
+
 chatSignal.onChange = () => {
     if (chatSignal.Value() === "open") {
         chatPopup.style.display = "flex"
@@ -133,10 +135,22 @@ checksum.onChange=async ()=>{
     }, 200)
 }
 
-checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
-checksum.onChange()
+async function checkChecksum() {
+    var request=(await (await fetch("/chats_checksum")).json())
+    leads=request["leads"]
+    if (request["leads"]) {
+        document.getElementById("leads").style.backgroundColor="#00da00"
+        chatInput.disabled=false
+        chatSendButton.disabled=false
+    } else {
+        document.getElementById("leads").style.backgroundColor="rgb(248, 114. 114)"
+        chatInput.disabled=true
+        chatSendButton.disabled=true
+    }
+    checksum.setValue(request["checksum"])
+}
+
+checkChecksum()
 first=false
 
-setInterval(async ()=>{
-    checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
-}, 5000)
+setInterval(checkChecksum, 5000)

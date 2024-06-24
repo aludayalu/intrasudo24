@@ -74,7 +74,7 @@
     bottom: 1px;
     border-radius: 50%;
     outline: solid 2px var(--bg-color);
-    background-color: var(--online-status);
+    background-color: rgb(248, 114, 114);
     transition: var(--btn-transition);
     animation: active-status 2s ease-in-out infinite;
   }
@@ -161,21 +161,3 @@
     background-color: var(--bg-color-sup);
     border-radius: 20px;
   }
-  @keyframes active-status {
-    0% {
-      background-color: var(--online-status);
-    }
-  
-    33.33% {
-      background-color: #93e200;
-    }
-  
-    66.33% {
-      background-color: #93e200;
-    }
-  
-    100% {
-      background-color: var(--online-status);
-    }
-  }
-  
