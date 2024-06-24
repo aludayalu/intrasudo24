@@ -127,6 +127,10 @@ async def disqualify(ctx, email):
 
 @bot.event
 async def on_message_edit(before, after):
+    if before.channel.category.name=="hints":
+        level=before.channel.name.split("-")[1]
+        hint=get("hints/"+level, str(before.id))["Value"]
+        set("hints/"+level, str(before.id), hint | {"content":after.content})
     if before.reference!=None:
         id=before.reference.message_id
         database_message=get("discord_messages", str(id))
