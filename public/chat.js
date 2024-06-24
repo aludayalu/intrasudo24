@@ -25,26 +25,28 @@ signal.onChange = () => {
         }, 200)
     }
     else {
-        chatToggleBtn.style.opacity = 1
-        chatToggleBtn.style.transform = "scale(1)"
+        chatToggleBtn.style.display = "block"
+
+        chatPopup.style.opacity = 0
+        chatPopup.style.transform = "translateY(900px)"
+
         setTimeout(() => {
-            chatPopup.style.opacity = 0
-            chatPopup.style.transform = "translateY(0px)"
             chatPopup.style.display = "none"
-            chatToggleBtn.style.display = "block"
-        }, 200);
+
+            chatToggleBtn.style.opacity = 1
+            chatToggleBtn.style.transform = "scale(1)"
+        }, 400);
     }
 }
 
-document.addEventListener("click", (e)=>{
-    console.log("hi")
-    if (document.getElementById("chatPopup").contains(e.target)) {
-        console.log("inside")
-    } else {
-        if (document.getElementById("btn-message").contains(e.target)) {
-            signal.setValue("open")
-        } else {
-            signal.setValue("close")
-        }
-    }
+chatToggleBtn.addEventListener("click", (e) => {
+    signal.setValue("open")
+})
+
+chatCloseBtn.addEventListener("click", (e) => {
+    signal.setValue("close")
+})
+
+chatMinimizeBtn.addEventListener("click", (e) => {
+    signal.setValue("close")
 })
