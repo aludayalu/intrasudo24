@@ -57,10 +57,43 @@ document.getElementById("chatInput").oninput=(x)=>{
     }
 }
 
-var checksum=Signal("checksum", "")
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return "";
+}
+
+var ignore=false
+var checksum=Signal("checksum", getCookie("checksum"))
+
+function cookie_set(key, val) {
+    try {
+        document.cookie = `${key}=${val};expires=Thu, 01 Jan 2049 00:00:00 UTC`
+    } catch { }
+}
 
 checksum.onChange=async ()=>{
-    console.log(await (await fetch("/chats")).json())
+    if (ignore) {
+        ignore=false
+    }
+    cookie_set("checksum", checksum.Value())
+    var chats=(await (await fetch("/chats")).json())["chats"]
+    document.getElementById("messagecontainer").innerHTML=""
+    chats.forEach((x)=>{
+        if (x["author"]=="Exun Clan") {
+            document.getElementById("messagecontainer").innerHTML+=messageMe.replace("{content}", x["content"])
+        } else {
+            document.getElementById("messagecontainer").innerHTML+=messageYou.replace("{content}", x["content"])
+        }
+    })
+    setTimeout(() => {
+        messagecontainer.scrollTop = messagecontainer.scrollHeight
+    }, 200)
 }
 
 checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])

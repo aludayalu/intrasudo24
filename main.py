@@ -271,6 +271,7 @@ def play():
         level_Details=get("levels", str(level))
         markup=level_Details["Value"]["markup"]
         chats=[]
+        avatar="https://api.dicebear.com/9.x/big-smile/svg?seed="+quote(loggedIn["Value"]["name"])
         chat_btn = render("chat/chat", locals())
         return render("play", locals())
     return ""
@@ -302,7 +303,7 @@ def submit_message():
     if "content" not in args:
         return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
-        last_Time=get("messagetimes", player["email"])
+        last_Time=get("messagetimes", loggedIn["Value"]["email"])
         if not last_Time["Ok"]:
             last_Time["Value"]=0
         if time.time()-last_Time["Value"]<1:

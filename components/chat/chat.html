@@ -86,5 +86,31 @@
         </div>
     </div>
 </div>
+<script>
+var messageMe=`
+<div class="flex flex-row gap-2">
+    <img src="/assets/logo-blue.png" class="w-7 h-7 rounded-full">
+    <div
+        class="bg-[var(--background)] border border-white/[0.35] rounded-lg w-full p-2 pt-1 text-xs flex flex-col gap-4">
+        <p class="text-sm font-semibold text-[var(--primary)]">Exun Clan</p>
+        <p class="text-white/80">
+            {content}
+        </p>
+    </div>
+</div>
+`
 
+var messageYou=`
+<div class="flex flex-row gap-2">
+    <div
+        class="bg-[var(--background)] border border-white/[0.35] rounded-lg w-full p-2 pt-1 text-xs flex flex-col gap-4">
+        <p class="text-sm font-semibold text-white">You</p>
+        <p class="text-white/80">
+            {content}
+        </p>
+    </div>
+    <img src="{avatar}" class="w-7 h-7 rounded-full">
+</div>
+`
+</script>
 <script defer type="module" src="chat.js"></script>
