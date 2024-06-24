@@ -306,7 +306,7 @@ def submit_message():
         last_Time=get("messagetimes", loggedIn["Value"]["email"])
         if not last_Time["Ok"]:
             last_Time["Value"]=0
-        if time.time()-last_Time["Value"]<1:
+        if time.time()-last_Time["Value"]<4:
             return {"error":"Too fast!"}
         player=loggedIn["Value"]
         id=str(time.time())
