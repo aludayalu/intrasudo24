@@ -16,7 +16,11 @@ async function submit() {
                 window.location = "/play"
             }, 1000)
         } else {
-            notyf.error({ position: position, message: "Incorrect Answer" })
+            if (response.error!==undefined) {
+                notyf.error({ position: position, message: response.error })
+            } else {
+                notyf.error({ position: position, message: "Incorrect Answer" })
+            }
         }
     }
 }
