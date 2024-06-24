@@ -21,7 +21,7 @@
         <div class="notice-content">
             <div class="username">Exun Clan</div>
             <div class="lable-message">
-                Leads<span class="number-message">3</span>
+                Leads<span class="number-message" id="message-count"></span>
             </div>
             <div class="user-id">exun@dpsrkp.net</div>
         </div>
@@ -70,8 +70,20 @@
         <div id="messagecontainer" class="h-full w-full flex flex-col gap-4 overflow-y-scroll no-scrollbar pb-1">
             {chats}
         </div>
-        <textarea type="text" placeholder="Enter a message" rows="4"
-            class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none"></textarea>
+        <div class="w-full relative">
+            <textarea type="text" placeholder="Enter a message" rows="4"
+                id = "chatInput"
+                class="w-full bg-[var(--background)] px-3 py-2 border border-white/[0.35] focus:border-white/[0.5] outline-none rounded-lg placeholder:text-white/[0.5] text-sm transition duration-300 opacity-1 scale-1 input scroll resize-none"></textarea>
+
+            <button id="chatSendButton"
+                class="w-5 h-5 flex justify-center items-center cursor-pointer transition duration-300 text-white/[0.4] hover:text-white absolute right-2 bottom-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663" class="h-full">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="currentColor"
+                        d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+                    </path>
+                </svg>
+            </button>
+        </div>
     </div>
 </div>
 

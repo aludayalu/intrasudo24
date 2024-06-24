@@ -302,8 +302,14 @@ def submit_message():
     if "content" not in args:
         return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
+        last_Time=get("messagetimes", player["email"])
+        if not last_Time["Ok"]:
+            last_Time["Value"]=0
+        if time.time()-last_Time["Value"]<1:
+            return {"error":"Too fast!"}
         player=loggedIn["Value"]
         id=str(time.time())
+        set("messagetimes", player["email"], time.time())
         set("messages/"+player["email"], id, {"author":loggedIn["Value"]["email"], "content":args["content"], "time":id, "id":id})
         requests.get(botapi+"/send_message?level="+str(player["level"])+"&name="+quote(player["name"])+"&email="+quote(player["email"])+"&content="+quote(args["content"]))
         return {"success":True}

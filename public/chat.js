@@ -50,3 +50,21 @@ chatCloseBtn.addEventListener("click", (e) => {
 chatMinimizeBtn.addEventListener("click", (e) => {
     signal.setValue("close")
 })
+
+document.getElementById("chatInput").oninput=(x)=>{
+    if (x.target.value.includes("\n")) {
+        console.log("hi")
+    }
+}
+
+var checksum=Signal("checksum", "")
+
+checksum.onChange=async ()=>{
+    console.log(await (await fetch("/chats")).json())
+}
+
+checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
+
+setInterval(async ()=>{
+    checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
+}, 5000)
