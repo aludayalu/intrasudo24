@@ -48,9 +48,6 @@
             }
 
             text=finalText.slice(0, Math.floor(i / (shuffle))) + text.slice(Math.floor(i / (shuffle)))
-
-            console.log(Math.floor(i / (shuffle)))
-
             textCont.innerText = text
 
             await new Promise(r => setTimeout(r, 10));

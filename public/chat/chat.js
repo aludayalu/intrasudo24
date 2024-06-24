@@ -121,7 +121,6 @@ checksum.onChange=async ()=>{
     final.sort((a, b)=>{
         return a["time"] > b["time"] ? 1 : -1
     })
-    console.log(final)
     document.getElementById("messagecontainer").innerHTML=""
     final.forEach((x)=>{
         if (x["author"]=="Exun Clan") {
