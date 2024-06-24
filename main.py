@@ -6,8 +6,11 @@ from mailer import mail
 import re, hashlib, random
 from secrets_parser import parse
 import hashlib
+import requests
+from urllib.parse import quote
 
 salt = parse("variables.txt")["salt"]
+botapi=parse("variables.txt")["botapi"]
 
 admin=["r23025aarav@dpsrkp.net", "r23733atharv@dpsrkp.net"]
 profanity=open("profanity.txt").read()
@@ -158,7 +161,7 @@ def auth_api():
                     if x not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
                         return json.dumps({"error":"Name can only contain alphabets"})
                 if args["name"].count(" ")>2:
-                    return json.dumps("Name can only contain a first name and a last name")
+                    return json.dumps({"error":"Name can only contain a first name and a last name"})
                 for x in args["name"].split(" "):
                     if x in profanity:
                         return json.dumps({"error":"Profanity Detected"})
@@ -216,6 +219,7 @@ def set_level():
         if "source" not in args or "answer" not in args and "markup" not in args or "level" not in args:
             return {"error":"Missing Fields"}
         set("levels", args["level"], {"id":int(args["level"]), "answer":args["answer"], "markup":args["markup"], "sourcehint":args["source"]})
+        requests.get(botapi+"/create_level?level="+args["level"])
         return {"level":"success"}
     return ""
 
@@ -266,13 +270,12 @@ def play():
         level=loggedIn["Value"]["level"]
         level_Details=get("levels", str(level))
         markup=level_Details["Value"]["markup"]
-        messageme = render("chat/messageme", locals())
-        messageyou = render("chat/messageyou", locals())
+        chats=[]
         chat_btn = render("chat/chat", locals())
         return render("play", locals())
     return ""
 
-@app.get("/chat_checksum")
+@app.get("/chats_checksum")
 def chat_checksum():
     loggedIn = auth(dict(request.cookies))
     args=dict(request.args)
@@ -289,6 +292,21 @@ def chats():
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
         return {"chats":all_messages["Value"]}
+    else:
+        return {"error":"Not LoggedIn"}
+
+@app.get("/submit_message")
+def submit_message():
+    loggedIn = auth(dict(request.cookies))
+    args=dict(request.args)
+    if "content" not in args:
+        return {"error":"Missing Fields"}
+    if loggedIn["Ok"]:
+        player=loggedIn["Value"]
+        id=str(time.time())
+        set("messages/"+player["email"], id, {"author":loggedIn["Value"]["email"], "content":args["content"], "time":id, "id":id})
+        requests.get(botapi+"/send_message?level="+str(player["level"])+"&name="+quote(player["name"])+"&email="+quote(player["email"])+"&content="+quote(args["content"]))
+        return {"success":True}
     else:
         return {"error":"Not LoggedIn"}
 

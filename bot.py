@@ -53,7 +53,7 @@ async def send_message(level, name, email, content):
 @app.get("/send_message")
 async def send_message_api():
     asyncio.run_coroutine_threadsafe(send_message(request.args["level"], request.args["name"], request.args["email"], request.args["content"]), bot.loop)
-    return "hi"
+    return "true"
 
 @bot.event
 async def on_message(message:discord.Message):
@@ -63,7 +63,7 @@ async def on_message(message:discord.Message):
         id=message.reference.message_id
         database_message=get("discord_messages", str(id))
         if database_message["Ok"]:
-            set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content})
+            set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content, "time":time.time(), "id":str(message.id)})
             await message.channel.send("hello", reference=message)
 
 @bot.event
@@ -74,6 +74,5 @@ async def on_message_delete(message:discord.Message):
         if database_message["Ok"]:
             delete("messages/"+database_message["Value"]["email"], str(message.id))
 
-# Run the bot with the specified token
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)
