@@ -12,6 +12,11 @@ from datetime import datetime, timedelta
 
 salt = parse("variables.txt")["salt"]
 botapi=parse("variables.txt")["botapi"]
+startTime=parse("variables.txt")["startTime"]
+endTime=parse("variables.txt")["endTime"]
+
+def during_event():
+    return startTime<=time.time() and time.time()<=endTime
 
 admin=["r23025aarav@dpsrkp.net", "r23733atharv@dpsrkp.net"]
 profanity=open("profanity.txt").read()
@@ -265,7 +270,7 @@ def admin_page():
 @app.get("/play")
 def play():
     loggedIn = auth(dict(request.cookies))
-    if request.cookies.get("email") in admin and loggedIn["Ok"]:
+    if loggedIn["Ok"] and (request.cookies.get("email") in admin or during_event()):
         if loggedIn["Ok"]:
             status = "Logout"
             status_url = "/logout"
@@ -282,7 +287,7 @@ def play():
         chat_btn = render("chat/chat", locals())
         sourcehint=level_Details["Value"]["sourcehint"]
         return render("play", locals())
-    return ""
+    return render("redirect")
 
 @app.get("/chats_checksum")
 def chat_checksum():
@@ -314,6 +319,11 @@ def submit_message():
     if "content" not in args:
         return {"error":"Missing Fields"}
     if loggedIn["Ok"]:
+        if not (request.cookies.get("email") in admin or during_event()):
+            if time.time()<startTime:
+                return {"error":"The event has not commenced yet"}
+            if time.time()>=endTime:
+                return {"error":"The event has concluded"}
         leads=get("status", "leads")
         if not leads["Value"]:
             return {"error":"Leads are unavailable at this moment"}
@@ -352,7 +362,12 @@ def submit():
     args=dict(request.args)
     if "answer" not in args:
         return {"error":"Missing Fields"}
-    if request.cookies.get("email") in admin and loggedIn["Ok"]:
+    if loggedIn["Ok"]:
+        if not (request.cookies.get("email") in admin or during_event()):
+            if time.time()<startTime:
+                return {"error":"The event has not commenced yet"}
+            if time.time()>=endTime:
+                return {"error":"The event has concluded"}
         last_Time=get("submittimeout", loggedIn["Value"]["email"])
         disqualified=get("disqualified", loggedIn["Value"]["email"])
         if not disqualified["Ok"]:
@@ -390,6 +405,7 @@ def submit():
             return {"success":True}
         else:
             return {"success":False}
-    return ""
+    else:
+        return {"error":"Not LoggedIn"}
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
