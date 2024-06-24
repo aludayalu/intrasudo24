@@ -5,6 +5,7 @@ from database import get, set, get_All, delete
 from mailer import mail
 import re, hashlib, random
 from secrets_parser import parse
+import hashlib
 
 salt = parse("variables.txt")["salt"]
 
@@ -265,8 +266,31 @@ def play():
         level=loggedIn["Value"]["level"]
         level_Details=get("levels", str(level))
         markup=level_Details["Value"]["markup"]
+        messageme = render("chat/messageme", locals())
+        messageyou = render("chat/messageyou", locals())
+        chat_btn = render("chat/chat", locals())
         return render("play", locals())
     return ""
+
+@app.get("/chat_checksum")
+def chat_checksum():
+    loggedIn = auth(dict(request.cookies))
+    args=dict(request.args)
+    if loggedIn["Ok"]:
+        all_messages=get_All("messages/"+request.cookies.get("email"))
+        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()).hexdigest()}
+    else:
+        return {"error":"Not LoggedIn"}
+
+@app.get("/chats")
+def chats():
+    loggedIn = auth(dict(request.cookies))
+    args=dict(request.args)
+    if loggedIn["Ok"]:
+        all_messages=get_All("messages/"+request.cookies.get("email"))
+        return {"chats":all_messages["Value"]}
+    else:
+        return {"error":"Not LoggedIn"}
 
 @app.get("/submit")
 def submit():
@@ -293,24 +317,6 @@ def submit():
             return {"success":True}
         else:
             return {"success":False}
-    return ""
-
-@app.get("/chat")
-def chat():
-    loggedIn = auth(dict(request.cookies))
-    if loggedIn["Ok"] and request.cookies.get("email") in admin:
-        if loggedIn["Ok"]:
-            status = "Logout"
-            status_url = "/logout"
-        else:
-            status = "Log In"
-            status_url = "/auth"
-        header = render("components/header.html", locals())
-        footer = render("components/footer.html", locals())
-        messageme = render("chat/messageme", locals())
-        messageyou = render("chat/messageyou", locals())
-        chat_btn = render("chat/chat", locals())
-        return render("chat", locals())
     return ""
 
 app.run(host="0.0.0.0", port=int(sys.argv[1]))
