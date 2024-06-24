@@ -307,7 +307,9 @@ def submit_message():
         if not last_Time["Ok"]:
             last_Time["Value"]=0
         if time.time()-last_Time["Value"]<4:
-            return {"error":"Too fast!"}
+            return {"error":"Messaging interval too short"}
+        if len(args["content"])>=512:
+            return {"error":"Message is too long"}
         player=loggedIn["Value"]
         id=str(time.time())
         set("messagetimes", player["email"], time.time())
