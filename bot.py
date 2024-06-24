@@ -125,5 +125,13 @@ async def disqualify(ctx, email):
         message="disqualified"
     await ctx.send(email+" has been "+message)
 
+@bot.event
+async def on_message_edit(before, after):
+    if before.reference!=None:
+        id=before.reference.message_id
+        database_message=get("discord_messages", str(id))
+        if database_message["Ok"]:
+            set("messages/"+database_message["Value"]["email"], str(before.id), database_message["Value"] | {"content":after.content})
+
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
 app.run(host="0.0.0.0", port=5555)
