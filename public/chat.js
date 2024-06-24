@@ -3,11 +3,13 @@ import { Signal } from "/$.js";
 const chatToggleBtn = document.getElementById("chatToggleBtn")
 const chatPopup = document.getElementById("chatPopup")
 
+var notyf = new Notyf();
+var position = { x: "center", y: "top" }
 
-const signal = Signal("chatOpenState", "close")
+const chatSignal = Signal("chatOpenState", "close")
 
-signal.onChange = () => {
-    if (signal.Value() === "open") {
+chatSignal.onChange = () => {
+    if (chatSignal.Value() === "open") {
         chatPopup.style.display = "flex"
 
         chatToggleBtn.style.opacity = 0
@@ -40,22 +42,30 @@ signal.onChange = () => {
 }
 
 chatToggleBtn.addEventListener("click", (e) => {
-    signal.setValue("open")
+    chatSignal.setValue("open")
 })
 
 chatCloseBtn.addEventListener("click", (e) => {
-    signal.setValue("close")
+    chatSignal.setValue("close")
 })
 
 chatMinimizeBtn.addEventListener("click", (e) => {
-    signal.setValue("close")
+    chatSignal.setValue("close")
 })
 
-document.getElementById("chatInput").oninput=(x)=>{
-    if (x.target.value.includes("\n")) {
-        console.log("hi")
+document.getElementById("chatSendButton").addEventListener("click", async (x)=>{
+    var text=document.getElementById("chatInput").value.trim().trim("\n")
+    if (text!="") {
+        document.getElementById("chatInput").value=""
+        var response=await fetch("/submit_message?content="+encodeURIComponent(text))
+        if (response.error!=undefined) {
+            notyf.error({ position: position, message: response.error })
+        } else {
+            ignore=true
+            checksum.onChange()
+        }
     }
-}
+})
 
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -69,6 +79,7 @@ function getCookie(name) {
 }
 
 var ignore=false
+var first=true
 var checksum=Signal("checksum", getCookie("checksum"))
 
 function cookie_set(key, val) {
@@ -78,6 +89,11 @@ function cookie_set(key, val) {
 }
 
 checksum.onChange=async ()=>{
+    if (!ignore && !first) {
+        if (chatSignal.Value()!="open") {
+            notyf.success({ position: position, message: "You have got a new message!" })
+        }
+    }
     if (ignore) {
         ignore=false
     }
@@ -98,6 +114,7 @@ checksum.onChange=async ()=>{
 
 checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
 checksum.onChange()
+first=false
 
 setInterval(async ()=>{
     checksum.setValue((await (await fetch("/chats_checksum")).json())["checksum"])
