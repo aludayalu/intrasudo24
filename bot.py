@@ -64,7 +64,6 @@ async def on_message(message:discord.Message):
         database_message=get("discord_messages", str(id))
         if database_message["Ok"]:
             set("messages/"+database_message["Value"]["email"], str(message.id), {"author":"Exun Clan", "content":message.content, "time":time.time(), "id":str(message.id)})
-            await message.channel.send("hello", reference=message)
 
 @bot.event
 async def on_message_delete(message:discord.Message):
