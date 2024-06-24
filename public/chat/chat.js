@@ -146,6 +146,8 @@ async function checkChecksum() {
         document.getElementById("leads").style.backgroundColor="rgb(248, 114, 114)"
         chatInput.disabled=true
         chatSendButton.disabled=true
+        document.getElementById("chatInput").value=""
+        document.getElementById("chatMsgLen").innerText = "0"
     }
     checksum.setValue(request["checksum"])
     if (first) {
