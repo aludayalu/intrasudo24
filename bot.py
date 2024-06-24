@@ -62,7 +62,7 @@ async def on_message(message:discord.Message):
     await bot.process_commands(message)
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-")[1]
-        set("hints/"+level, str(message.id), message.content)
+        set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan"})
         return
     if message.reference!=None:
         id=message.reference.message_id

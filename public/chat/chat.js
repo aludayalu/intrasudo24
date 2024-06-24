@@ -112,9 +112,16 @@ checksum.onChange=async ()=>{
         ignore=false
     }
     cookie_set("checksum", checksum.Value())
-    var chats=(await (await fetch("/chats")).json())["chats"]
+    var request=(await (await fetch("/chats")).json())
+    var chats=request["chats"]
+    var hints=request["hints"]
+    var final=chats.concat(hints)
+    final.sort((a, b)=>{
+        return a["time"] > b["time"] ? 1 : -1
+    })
+    console.log(final)
     document.getElementById("messagecontainer").innerHTML=""
-    chats.forEach((x)=>{
+    final.forEach((x)=>{
         if (x["author"]=="Exun Clan") {
             document.getElementById("messagecontainer").innerHTML+=messageMe.replace("{content}", x["content"])
         } else {

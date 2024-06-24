@@ -289,7 +289,8 @@ def chat_checksum():
     args=dict(request.args)
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
-        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()).hexdigest()}
+        hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
+        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest()}
     else:
         return {"error":"Not LoggedIn"}
 
@@ -299,7 +300,8 @@ def chats():
     args=dict(request.args)
     if loggedIn["Ok"]:
         all_messages=get_All("messages/"+request.cookies.get("email"))
-        return {"chats":all_messages["Value"]}
+        hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
+        return {"chats":all_messages["Value"], "hints":hints["Value"]}
     else:
         return {"error":"Not LoggedIn"}
 
