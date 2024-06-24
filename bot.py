@@ -120,9 +120,9 @@ async def disqualify(ctx, email):
     set("disqualified", email, not disqualified)
     message=""
     if disqualified:
-        message="disqualified"
-    else:
         message="allowed to play"
+    else:
+        message="disqualified"
     await ctx.send(email+" has been "+message)
 
 threading.Thread(target=bot.run, args=(bot_Token, ), daemon=True).start()
