@@ -74,7 +74,7 @@ async def on_message(message:discord.Message):
 
 @bot.event
 async def on_message_delete(message:discord.Message):
-    if message.channel.name:
+    if message.channel.name=="anouncements":
         delete("announcements", str(message.id))
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-")[1]
