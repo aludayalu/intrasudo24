@@ -36,7 +36,6 @@ def User():
         "level": 0,
         "logs": "",
         "email": "",
-        "verified": False,
         "password": "",
     }
 
