@@ -62,6 +62,7 @@ async def on_message(message:discord.Message):
     await bot.process_commands(message)
     if message.channel.name=="announcements":
         set("announcements", str(message.id), {"content":message.content, "time":time.time()})
+        return
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-")[1]
         set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan"})
@@ -140,6 +141,7 @@ async def on_message_edit(before, after):
         if announcement["Ok"]:
             announcement["Value"]["content"]=after.content
             set("announcements", str(before.id), announcement["Value"])
+        return
     if before.channel.category.name=="hints":
         level=before.channel.name.split("-")[1]
         hint=get("hints/"+level, str(before.id))["Value"]
