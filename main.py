@@ -287,7 +287,6 @@ def play():
         else:
             status = "Log In"
             status_url = "/auth"
-        announcements_content = ""
         announcements = render("components/announcements.html", locals())
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())

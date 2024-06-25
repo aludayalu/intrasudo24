@@ -7,7 +7,7 @@
             <path
                 d="M8.83973 19.96C9.05563 20.9001 9.53138 21.7308 10.1932 22.3232C10.855 22.9157 11.6659 23.2368 12.5001 23.2368C13.3343 23.2368 14.1452 22.9157 14.807 22.3232C15.4688 21.7308 15.9445 20.9001 16.1604 19.96"
                 stroke="white" stroke-width="1.26316" stroke-linecap="round" />
-            <circle cx="18.8158" cy="5.55266" r="5.6" fill="currentColor" />
+            <circle id="announcementsCircle" cx="18.8158" cy="5.55266" r="5.6" fill="currentColor" class="transition duration-[400ms] scale-0" />
         </svg>
     </div>
 
@@ -17,8 +17,6 @@
 
             <div id="announcementsContainer"
                 class="h-full w-full flex flex-col gap-4 overflow-y-scroll no-scrollbar">
-                {announcements_content}
-                
             </div>
             <p class="hidden transition absolute top-[calc(50%-12px)] translateY-[-50%] w-full text-center text-white/60 font-medium text-base">No announcements found</p>
         </div>
