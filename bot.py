@@ -101,7 +101,10 @@ async def backlink(ctx, backlink, url):
 
 @bot.command()
 async def logs(ctx, email):
-    await ctx.send("```"+get("logs", email)["Value"]+"```")
+    log=get("logs", email)["Value"]
+    if len(log)>1800:
+        log=log[len(log)-1800:]
+    await ctx.send("```"+log+"```")
 
 @bot.command()
 async def leads(ctx):

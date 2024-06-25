@@ -75,7 +75,14 @@ def home():
     footer = render("components/footer.html", locals())
     confetti = render("components/confetti.html", locals())
     if loggedIn["Ok"]:
-        countdown = render("countdown", locals())
+        if during_event():
+            button_text="PLAY NOW"
+            redirect_url="/play"
+            countdown = render("buttons/home", locals())
+        else:
+            button_text="SIGN IN WITH @DPSRKP.NET"
+            redirect_url="/auth"
+            countdown = render("buttons/home", locals())
     else:
         countdown = render("signinbutton", locals())
     return render("components/index.html", locals())
