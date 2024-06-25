@@ -83,25 +83,50 @@ document.getElementById("chatInput").oninput = (e) => {
     document.getElementById("chatMsgLen").innerText = e.target.value.trim().length
 }
 
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+function cookie_get(key) {
+    try {
+        var cookies={}
+        for (var x in document.cookie.split("; ")) {
+            var raw_data=document.cookie.split("; ")[x].split("=")
+            cookies[raw_data[0]]=raw_data[1]
+        }
+        if (key in cookies) {
+            return cookies[key]
+        }
+        return ""
+    } catch {
+        return ""
     }
-    return "";
 }
 
 var ignore=false
 var first=true
-var checksum=Signal("checksum", getCookie("checksum"))
+var checksum=Signal("checksum", cookie_get("checksum"))
+var announcements_Signal=Signal("announcements", cookie_get("announcements"))
 
 function cookie_set(key, val) {
     try {
         document.cookie = `${key}=${val};expires=Thu, 01 Jan 2049 00:00:00 UTC`
     } catch { }
+}
+
+announcements_Signal.onChange=async ()=>{
+    if (!first) {
+        notyf.success({ position: position, message: "There is a new announcement!" })
+        if (window.toggleAnnouncements.Value()!="open") {
+            document.getElementById("announcementsCircle").style.transform="scale(1)"
+        }
+    }
+    cookie_set("announcements", announcements_Signal.Value())
+    var request=(await (await fetch("/announcements")).json())
+    var announcements=document.getElementById("announcementsContainer")
+    announcements.innerHTML=""
+    request["announcements"].forEach((x)=>{
+        announcements.innerHTML+=announcement_Item.replace("{announcement}", x["content"]).replace("{time}", (new Date(x["time"]*1000)).toString().split(" ").slice(1, 5).join(" "))
+    })
+    setTimeout(()=>{
+        announcements.scrollTop =  announcements.scrollHeight
+    }, 10)
 }
 
 checksum.onChange=async ()=>{
@@ -149,8 +174,10 @@ async function checkChecksum() {
         document.getElementById("chatMsgLen").innerText = "0"
     }
     checksum.setValue(request["checksum"])
+    announcements_Signal.setValue(request["announcements"])
     if (first) {
         checksum.onChange()
+        announcements_Signal.onChange()
     }
 }
 

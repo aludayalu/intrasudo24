@@ -24,13 +24,18 @@
 </div>
 
 <script>
-    const announcement_item = `<div class="flex flex-row gap-2">
-                    <img src="assets/logo-blue.png" class="w-7 h-7 rounded-full">
-                    <div class="bg-[var(--background)] border border-white/[0.35] rounded-md w-full p-2 text-xs flex flex-col gap-2.5">
-                        <p class="text-sm font-semibold text-[var(--primary)]">Exun Clan</p>
-                        <p>This is an announcement</p>
-                    </div>
-                </div>`
+const announcement_Item = `
+<div class="flex flex-row gap-2">
+    <img src="assets/logo-blue.png" class="w-7 h-7 rounded-full">
+    <div class="bg-[var(--background)] border border-white/[0.35] rounded-md w-full p-2 text-xs flex flex-col gap-2.5">
+        <div class="w-full flex justify-between flex-row gap-1 items-end">
+            <p class="text-sm font-semibold text-[var(--primary)]">Exun Clan</p>
+            <p class="text-[11px] font-light text-white/50 text-right">{time}</p>
+        </div>
+        <p>{announcement}</p>
+    </div>
+</div>
+`
 </script>
 
 <script defer type="module" src="announcements.js"></script>

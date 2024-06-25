@@ -4,16 +4,22 @@ const announcementsToggleBtn = document.getElementById("announcementsToggleBtn")
 const announcementsPopup = document.getElementById("announcementsPopup")
 const announcementsContainer = document.getElementById("announcementsContainer")
 
-const announcementsSignal = Signal("announcementsOpenState", "close")
+const toggleAnnouncements = Signal("announcementsOpenState", "close")
+window.toggleAnnouncements=toggleAnnouncements
 
-announcementsSignal.onChange = () => {
-    if (announcementsSignal.Value() === "open") {
+toggleAnnouncements.onChange = () => {
+    if (toggleAnnouncements.Value() === "open") {
+
+        document.getElementById("announcementsCircle").style.transform="scale(0)"
         announcementsPopup.style.display = "block"
+
+        document.getElementById("announcementsContainer").scrollTop=document.getElementById("announcementsContainer").scrollHeight
 
         setTimeout(() => {
             announcementsPopup.style.opacity = 1
             announcementsPopup.style.transform = "translateY(0px)"
         }, 10);
+
     }
     else {
         announcementsPopup.style.opacity = 0
@@ -26,15 +32,13 @@ announcementsSignal.onChange = () => {
 }
 
 announcementsToggleBtn.addEventListener("click", (e) => {
-    announcementsSignal.setValue(announcementsSignal.Value() === "open" ? "close" : "open")
+    toggleAnnouncements.setValue(toggleAnnouncements.Value() === "open" ? "close" : "open")
 })
 
 window.addEventListener("click", (e) => {
     if(!Array.from(announcementsPopup.querySelectorAll("*")).includes(e.target)){
         if(!Array.from(announcementsToggleBtn.querySelectorAll("*")).includes(e.target)){
-            announcementsSignal.setValue("close")
+            toggleAnnouncements.setValue("close")
         }
     }
 })
-
-announcementsContainer.innerHTML = announcement_item
