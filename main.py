@@ -71,6 +71,7 @@ def home():
     else:
         status = "Log In"
         status_url = "/auth"
+    announcements = ""
     header = render("components/header.html", locals())
     footer = render("components/footer.html", locals())
     confetti = render("components/confetti.html", locals())
@@ -132,6 +133,7 @@ def leaderboard():
     else:
         status = "Log In"
         status_url = "/auth"
+    announcements = ""
     header = render("components/header.html", locals())
     footer = render("components/footer.html", locals())
     return render("components/leaderboard/leaderboard.html", locals())
@@ -151,6 +153,7 @@ def auth_page():
     else:
         status = "Log In"
         status_url = "/auth"
+    announcements = ""
     header = render("components/header.html", locals())
     footer = render("components/footer.html", locals())
     return render("components/auth.html", locals())
@@ -268,6 +271,7 @@ def admin_page():
         else:
             status = "Log In"
             status_url = "/auth"
+        announcements = ""
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
         return render("admin/admin", locals())
@@ -283,6 +287,8 @@ def play():
         else:
             status = "Log In"
             status_url = "/auth"
+        announcements_content = ""
+        announcements = render("components/announcements.html", locals())
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
         level=loggedIn["Value"]["level"]
@@ -389,6 +395,7 @@ def submit():
         set("submittimeout", loggedIn["Value"]["email"], time.time())
         status = "Logout"
         status_url = "/logout"
+        announcements = ""
         header = render("components/header.html", locals())
         footer = render("components/footer.html", locals())
         level=loggedIn["Value"]["level"]
