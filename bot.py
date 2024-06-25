@@ -60,6 +60,8 @@ async def on_message(message:discord.Message):
     if message.author==bot:
         return
     await bot.process_commands(message)
+    if message.channel.name=="announcements":
+        set("announcements", str(message.id), {"content":message.content, "time":time.time()})
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-")[1]
         set("hints/"+level, str(message.id), {"time":time.time(), "content":message.content, "id":message.id, "author":"Exun Clan"})
@@ -72,6 +74,8 @@ async def on_message(message:discord.Message):
 
 @bot.event
 async def on_message_delete(message:discord.Message):
+    if message.channel.name:
+        delete("announcements", str(message.id))
     if message.channel.category.name=="hints":
         level=message.channel.name.split("-")[1]
         delete("hints/"+level, str(message.id))
