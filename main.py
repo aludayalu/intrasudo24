@@ -325,6 +325,16 @@ def chats():
     else:
         return {"error":"Not LoggedIn"}
 
+@app.get("/announcements")
+def announcements():
+    loggedIn = auth(dict(request.cookies))
+    args=dict(request.args)
+    if loggedIn["Ok"]:
+        all_announcements=get_All("announcements")["Value"]
+        return {"announcements":all_announcements}
+    else:
+        return {"error":"Not LoggedIn"}
+
 @app.get("/submit_message")
 def submit_message():
     loggedIn = auth(dict(request.cookies))
