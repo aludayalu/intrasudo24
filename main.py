@@ -85,7 +85,9 @@ def home():
             redirect_url="/auth"
             countdown = render("buttons/home", locals())
     else:
-        countdown = render("signinbutton", locals())
+        button_text="SIGN IN WITH @DPSRKP.NET"
+        redirect_url="/auth"
+        countdown = render("buttons/home", locals())
     return render("components/index.html", locals())
 
 
@@ -308,7 +310,7 @@ def chat_checksum():
         all_messages=get_All("messages/"+request.cookies.get("email"))
         hints=get_All("hints/"+str(loggedIn["Value"]["level"]))
         leads=get("status", "leads")
-        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest(), "leads":leads["Value"]}
+        return {"checksum":hashlib.sha256(json.dumps(all_messages).encode()+json.dumps(hints).encode()).hexdigest(), "leads":leads["Value"], "announcements":hashlib.sha256(json.dumps(get_All("announcements")).encode()).hexdigest()}
     else:
         return {"error":"Not LoggedIn"}
 
