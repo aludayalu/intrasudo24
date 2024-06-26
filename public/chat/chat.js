@@ -7,6 +7,7 @@ var notyf = new Notyf();
 var position = { x: "center", y: "top" }
 
 const chatSignal = Signal("chatOpenState", "close")
+window.chatSignal=chatSignal
 
 var leads=false
 

@@ -20,6 +20,8 @@ toggleAnnouncements.onChange = () => {
             announcementsPopup.style.transform = "translateY(0px)"
         }, 10);
 
+        window.chatSignal.setValue("close")
+
     }
     else {
         announcementsPopup.style.opacity = 0
@@ -36,9 +38,7 @@ announcementsToggleBtn.addEventListener("click", (e) => {
 })
 
 window.addEventListener("click", (e) => {
-    if(!Array.from(announcementsPopup.querySelectorAll("*")).includes(e.target)){
-        if(!Array.from(announcementsToggleBtn.querySelectorAll("*")).includes(e.target)){
-            toggleAnnouncements.setValue("close")
-        }
+    if(!Array.from(announcementsPopup.querySelectorAll("*")).includes(e.target) && !Array.from(announcementsToggleBtn.querySelectorAll("*")).includes(e.target) && !Array.from(document.getElementById("chatControls").querySelectorAll("*")).includes(e.target) && !Array.from(document.getElementById("chatPopup").querySelectorAll("*")).includes(e.target)){
+        toggleAnnouncements.setValue("close")
     }
 })
