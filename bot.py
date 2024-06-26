@@ -53,7 +53,7 @@ async def send_message(level, name, email, content):
 @app.get("/send_message")
 async def send_message_api():
     asyncio.run_coroutine_threadsafe(send_message(request.args["level"], request.args["name"], request.args["email"], request.args["content"]), bot.loop)
-    return "true"
+    return {"success":"true"}
 
 @bot.event
 async def on_message(message:discord.Message):
@@ -93,7 +93,7 @@ async def info(ctx):
 Commands:
 ```
 /info : help page
-/backlink : to set a backlink, example: /backlink abcd https://intra.sudocrypt.com/logo-blue.png
+/backlink : to set a backlink, example: /backlink abcd https://intra.sudocrypt.com/assets/logo-blue.png
 /logs : to get the logs of a player, example: /logs exun@dpsrkp.net
 /leads : to toggle leads, example: /leads
 /disqualify : to toggle disqualification of a player, example: /disqualify {email}
